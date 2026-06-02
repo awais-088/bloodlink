@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "BloodLink",
-    "slug": "BloodLink",
+    "slug": "bloodLink",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -12,6 +12,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.awais.bloodlink",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -43,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ba4bbb08-58bb-44fa-af10-850293a3f6d5"
+      }
     }
   }
 }
