@@ -62,9 +62,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("BloodLink Backend Running");
-});
+
 // ROUTES
 
 const authRoutes = require(
