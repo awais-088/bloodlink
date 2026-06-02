@@ -59,13 +59,9 @@ const LoginScreen = () => {
           );
         }
       } catch (error: any) {
-        Alert.alert(
-          "Error",
-          error?.response?.data
-            ?.message ||
-            "Login failed"
-        );
-      }
+  console.log(error.response?.data);
+  console.log(error.message);
+}
     };
 
   return (

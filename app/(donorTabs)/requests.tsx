@@ -123,91 +123,81 @@ const RequestsScreen = () => {
       ) : (
         requests.map((item) => (
           <SafeAreaView
-            key={item._id}
-            style={styles.card}
-          >
-            <Text style={styles.name}>
-              {
-                item.recipient
-                  ?.name
-              }
-            </Text>
+  key={item._id}
+  style={styles.card}
+>
+  <Text style={styles.bloodIcon}>
+    🩸
+  </Text>
 
-            <Text
-              style={styles.info}
-            >
-              Blood Group:
-              {" "}
-              {item.bloodGroup}
-            </Text>
+  <Text style={styles.name}>
+    {item.recipient?.name}
+  </Text>
 
-            <Text
-              style={styles.info}
-            >
-              Hospital:
-              {" "}
-              {
-                item.hospitalName
-              }
-            </Text>
+  <Text style={styles.info}>
+    Patient: {item.patientName}
+  </Text>
 
-            <Text
-              style={styles.info}
-            >
-              Status:
-              {" "}
-              {item.status}
-            </Text>
+  <Text style={styles.info}>
+    Blood Group: {item.bloodGroup}
+  </Text>
 
-            {item.status ===
-              "pending" && (
-              <SafeAreaView
-                style={
-                  styles.buttonRow
-                }
-              >
-                <TouchableOpacity
-                  style={
-                    styles.acceptButton
-                  }
-                  onPress={() =>
-                    updateStatus(
-                      item._id,
-                      "accepted"
-                    )
-                  }
-                >
-                  <Text
-                    style={
-                      styles.buttonText
-                    }
-                  >
-                    Accept
-                  </Text>
-                </TouchableOpacity>
+  <Text style={styles.info}>
+    Hospital: {item.hospitalName}
+  </Text>
 
-                <TouchableOpacity
-                  style={
-                    styles.rejectButton
-                  }
-                  onPress={() =>
-                    updateStatus(
-                      item._id,
-                      "rejected"
-                    )
-                  }
-                >
-                  <Text
-                    style={
-                      styles.buttonText
-                    }
-                  >
-                    Reject
-                  </Text>
-                </TouchableOpacity>
-              </SafeAreaView>
-            )}
-          </SafeAreaView>
+  <Text style={styles.info}>
+    Phone: {item.recipient?.phone}
+  </Text>
+
+  <Text
+    style={[
+      styles.status,
+      item.status === "accepted"
+        ? styles.accepted
+        : item.status === "rejected"
+        ? styles.rejected
+        : styles.pending,
+    ]}
+  >
+    {item.status.toUpperCase()}
+  </Text>
+
+  {item.status === "pending" && (
+    <SafeAreaView
+      style={styles.buttonRow}
+    >
+      <TouchableOpacity
+        style={styles.acceptButton}
+        onPress={() =>
+          updateStatus(
+            item._id,
+            "accepted"
+          )
+        }
+      >
+        <Text style={styles.buttonText}>
+          Accept
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.rejectButton}
+        onPress={() =>
+          updateStatus(
+            item._id,
+            "rejected"
+          )
+        }
+      >
+        <Text style={styles.buttonText}>
+          Reject
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  )}
+</SafeAreaView>
+          
         ))
       )}
     </ScrollView>
@@ -224,6 +214,32 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
   },
+  bloodIcon: {
+  fontSize: 40,
+  textAlign: "center",
+  marginBottom: 10,
+},
+
+status: {
+  marginTop: 12,
+  paddingVertical: 8,
+  borderRadius: 10,
+  textAlign: "center",
+  color: "white",
+  fontWeight: "bold",
+},
+
+accepted: {
+  backgroundColor: "#16A34A",
+},
+
+rejected: {
+  backgroundColor: "#DC2626",
+},
+
+pending: {
+  backgroundColor: "#F59E0B",
+},
 
   container: {
     flexGrow: 1,
@@ -258,21 +274,22 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "white",
+   
+  backgroundColor: "white",
 
-    padding: 20,
+  padding: 20,
 
-    borderRadius: 18,
+  borderRadius: 20,
 
-    marginBottom: 20,
+  marginBottom: 20,
 
-    shadowColor: "#000",
+  shadowColor: "#000",
 
-    shadowOpacity: 0.05,
+  shadowOpacity: 0.08,
 
-    shadowRadius: 5,
+  shadowRadius: 10,
 
-    elevation: 3,
+  elevation: 5,
   },
 
   name: {

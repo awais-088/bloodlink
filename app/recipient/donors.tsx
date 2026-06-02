@@ -1,22 +1,22 @@
 import {
-    FlatList,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import {
-    useEffect,
-    useState,
+  useEffect,
+  useState,
 } from "react";
 
 import {
-    router,
-    useLocalSearchParams,
+  router,
+  useLocalSearchParams,
 } from "expo-router";
 
 import API from "../api/api";
@@ -290,6 +290,9 @@ const styles = StyleSheet.create({
     padding: 16,
 
     borderRadius: 14,
+    borderWidth:2,
+    borderColor:'#000000',
+    borderStyle:'solid',
 
     marginBottom: 20,
   },

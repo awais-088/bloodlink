@@ -1,12 +1,13 @@
+import { Ionicons } from "@expo/vector-icons";
 import {
-    Alert,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import { useState } from "react";
@@ -59,15 +60,15 @@ const ForgotPasswordScreen = () => {
       }
     >
       <TouchableOpacity
-        style={styles.backButton}
-        onPress={() =>
-          router.back()
-        }
-      >
-        <Text style={styles.backText}>
-          ← Back
-        </Text>
-      </TouchableOpacity>
+  style={styles.backButton}
+  onPress={() => router.back()}
+>
+  <Ionicons
+    name="arrow-back"
+    size={24}
+    color="white"
+  />
+</TouchableOpacity>
 
       <Image
         source={require("../../assets/images/blood-drop.png")}
@@ -129,16 +130,23 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-    marginBottom: 20,
-  },
+  width: 45,
 
-  backText: {
-    color: "white",
+  height: 45,
 
-    fontSize: 18,
+  borderRadius: 22.5,
 
-    fontWeight: "bold",
-  },
+  backgroundColor:
+    "rgba(255,255,255,0.15)",
+
+  justifyContent: "center",
+
+  alignItems: "center",
+
+  marginBottom: 25,
+},
+
+  
 
   logo: {
     width: 120,
@@ -170,13 +178,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  card: {
-    backgroundColor: "white",
+ card: {
+  backgroundColor: "white",
 
-    borderRadius: 24,
+  borderRadius: 24,
 
-    padding: 25,
-  },
+  padding: 25,
+
+  shadowColor: "#000",
+
+  shadowOpacity: 0.08,
+
+  shadowRadius: 10,
+
+  elevation: 5,
+},
 
   input: {
     backgroundColor: "#F3F4F6",

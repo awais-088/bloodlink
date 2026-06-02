@@ -55,7 +55,7 @@ const HistoryScreen = () => {
       <FlatList
       ListEmptyComponent={
   <EmptyState
-    message="No requests found"
+    message="No Blood Requests Yet"
   />
 }
         data={requests}
@@ -63,56 +63,45 @@ const HistoryScreen = () => {
           item._id
         }
         renderItem={({ item }: any) => (
-          <View style={styles.card}>
-            <Text style={styles.name}>
-              {
-                item.donor
-                  ?.name
-              }
-            </Text>
+  <View style={styles.card}>
+    <Text style={styles.bloodIcon}>
+      🩸
+    </Text>
 
-            <Text style={styles.info}>
-              Blood Group:
-              {" "}
-              {
-                item.donor
-                  ?.bloodGroup
-              }
-            </Text>
+    <Text style={styles.name}>
+      {item.donor?.name}
+    </Text>
 
-            <Text style={styles.info}>
-              Hospital:
-              {" "}
-              {item.hospitalName}
-            </Text>
+    <Text style={styles.info}>
+      Blood Group: {item.donor?.bloodGroup}
+    </Text>
 
-            <Text style={styles.info}>
-              Patient:
-              {" "}
-              {item.patientName}
-            </Text>
+    <Text style={styles.info}>
+      Patient: {item.patientName}
+    </Text>
 
-            <Text
-              style={[
-                styles.status,
-                {
-                  color:
-                    item.status ===
-                    "accepted"
-                      ? "green"
-                      : item.status ===
-                          "rejected"
-                        ? "red"
-                        : "#DC2626",
-                },
-              ]}
-            >
-              Status:
-              {" "}
-              {item.status}
-            </Text>
-          </View>
-        )}
+    <Text style={styles.info}>
+      Hospital: {item.hospitalName}
+    </Text>
+
+    <Text style={styles.info}>
+      Phone: {item.donor?.phone}
+    </Text>
+
+    <Text
+      style={[
+        styles.statusBadge,
+        item.status === "accepted"
+          ? styles.accepted
+          : item.status === "rejected"
+          ? styles.rejected
+          : styles.pending,
+      ]}
+    >
+      {item.status.toUpperCase()}
+    </Text>
+  </View>
+)}
       />
     </ScrollView>
   );
@@ -130,34 +119,69 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 20,
   },
+  bloodIcon: {
+  fontSize: 42,
 
-  header: {
-    fontSize: 30,
+  textAlign: "center",
 
-    fontWeight: "bold",
+  marginBottom: 10,
+},
 
-    marginBottom: 20,
+statusBadge: {
+  marginTop: 15,
 
-    color: "#111827",
-  },
+  textAlign: "center",
+
+  paddingVertical: 10,
+
+  borderRadius: 12,
+
+  color: "#FFFFFF",
+
+  fontWeight: "bold",
+
+  overflow: "hidden",
+},
+
+accepted: {
+  backgroundColor: "#16A34A",
+},
+
+rejected: {
+  backgroundColor: "#DC2626",
+},
+
+pending: {
+  backgroundColor: "#F59E0B",
+},
+
+ header: {
+  fontSize: 32,
+
+  fontWeight: "bold",
+
+  color: "#111827",
+
+  marginBottom: 25,
+},
 
   card: {
-    backgroundColor: "white",
+  backgroundColor: "#FFFFFF",
 
-    padding: 20,
+  padding: 22,
 
-    borderRadius: 18,
+  borderRadius: 24,
 
-    marginBottom: 15,
+  marginBottom: 18,
 
-    shadowColor: "#000",
+  shadowColor: "#000",
 
-    shadowOpacity: 0.05,
+  shadowOpacity: 0.08,
 
-    shadowRadius: 5,
+  shadowRadius: 12,
 
-    elevation: 3,
-  },
+  elevation: 5,
+},
 
   name: {
     fontSize: 20,
