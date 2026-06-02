@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://10.11.243.76:5000/api",
+  baseURL:
+    "https://bloodlink-1n2b.onrender.com/api",
 });
 
 export default API;

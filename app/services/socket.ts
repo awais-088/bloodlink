@@ -1,7 +1,5 @@
 import { io } from "socket.io-client";
 
-const socket = io(
-  "http://192.168.43.77:5000"
-);
+const socket = io("https://bloodlink-1n2b.onrender.com");
 
 export default socket;
