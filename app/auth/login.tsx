@@ -1,6 +1,6 @@
+import { router } from "expo-router";
 import { useState } from "react";
 import {
-  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -11,8 +11,7 @@ import {
 import {
   SafeAreaView
 } from "react-native-safe-area-context";
-
-import { router } from "expo-router";
+import Toast from "react-native-toast-message";
 
 import API from "../api/api";
 
@@ -26,29 +25,35 @@ const LoginScreen = () => {
     useState("");
 
   const handleLogin =
-    async () => {
-      try {
-        const response =
-          await API.post(
-            "/auth/login",
-            {
-              email,
-              password,
-            }
-          );
-
-        const user =
-          response.data.user;
-
-        await saveUser(user);
-
-        Alert.alert(
-          "Success",
-          "Login successful"
+  async () => {
+    try {
+      const response =
+        await API.post(
+          "/auth/login",
+          {
+            email,
+            password,
+          }
         );
 
+      const user =
+        response.data.user;
+
+      await saveUser(user);
+
+      Toast.show({
+        type: "success",
+        text1:
+          "Login Successful",
+        text2:
+          "Welcome back 👋",
+        visibilityTime: 2000,
+      });
+
+      setTimeout(() => {
         if (
-          user.role === "donor"
+          user.role ===
+          "donor"
         ) {
           router.replace(
             "/(donorTabs)/dashboard"
@@ -58,11 +63,25 @@ const LoginScreen = () => {
             "/(recipientTabs)/home"
           );
         }
-      } catch (error: any) {
-  console.log(error.response?.data);
-  console.log(error.message);
-}
-    };
+      }, 2000);
+    } catch (error: any) {
+      console.log(
+        error.response?.data
+      );
+
+      console.log(
+        error.message
+      );
+
+      Toast.show({
+        type: "error",
+        text1:
+          "Login Failed",
+        text2:
+          "Invalid email or password",
+      });
+    }
+  };
 
   return (
     <ScrollView
