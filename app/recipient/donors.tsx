@@ -1,3 +1,8 @@
+import { Ionicons } from "@expo/vector-icons";
+import {
+  router,
+  useLocalSearchParams,
+} from "expo-router";
 import {
   useEffect,
   useState,
@@ -14,11 +19,6 @@ import {
 import {
   SafeAreaView
 } from "react-native-safe-area-context";
-
-import {
-  router,
-  useLocalSearchParams,
-} from "expo-router";
 
 import API from "../api/api";
 
@@ -89,14 +89,19 @@ const DonorsScreen = () => {
   
     >
       <TouchableOpacity
-        onPress={() =>
-          router.back()
-        }
-      >
-        <Text style={styles.back}>
-          ← Back
-        </Text>
-      </TouchableOpacity>
+  style={{
+    marginBottom: 15,
+  }}
+  onPress={() =>
+    router.back()
+  }
+>
+  <Ionicons
+    name="arrow-back"
+    size={30}
+    color="#111827"
+  />
+</TouchableOpacity>
 
       <View style={styles.topSection}>
         <Image
