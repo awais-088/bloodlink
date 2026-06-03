@@ -133,18 +133,42 @@ const updateRequestStatus =
       await request.save();
 
       const recipient =
-        await User.findById(
-          request.recipient
-        );
+  await User.findById(
+    request.recipient
+  );
+
+const donor =
+  await User.findById(
+    request.donor
+  );
 
       if (
         recipient?.pushToken
       ) {
-        const notificationBody =
-          request.status ===
-          "accepted"
-            ? "Your blood request has been accepted ❤️"
-            : "Your blood request has been rejected";
+        
+        let notificationTitle =
+  "Blood Request Update";
+
+let notificationBody =
+  "";
+
+if (
+  request.status ===
+  "accepted"
+) {
+  notificationTitle =
+    "Blood Request Accepted ❤️";
+
+  notificationBody =
+    `Donor: ${donor.name}
+Phone: ${donor.phone}`;
+} else {
+  notificationTitle =
+    "Blood Request Rejected";
+
+  notificationBody =
+    "Unfortunately the donor rejected your request.";
+}
 
         await fetch(
           "https://exp.host/--/api/v2/push/send",
@@ -165,7 +189,7 @@ const updateRequestStatus =
                   recipient.pushToken,
 
                 title:
-                  "Blood Request Update",
+                  notificationTitle,
 
                 body:
                   notificationBody,
