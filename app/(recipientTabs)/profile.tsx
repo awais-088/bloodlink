@@ -147,12 +147,14 @@ const ProfileScreen = () => {
         onPress={pickImage}
         style={styles.imageContainer}
       >
-        <Image
-          source={
-             require("../../assets/images/user.png")
-          }
-          style={styles.image}
-        />
+       <Image
+  source={
+    image
+      ? { uri: image }
+      : require("../../assets/images/user.png")
+  }
+  style={styles.image}
+/>
 
         <Text style={styles.changePhoto}>
           Change Photo

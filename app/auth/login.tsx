@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -7,6 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
 import {
   SafeAreaView
@@ -25,8 +27,16 @@ const LoginScreen = () => {
   const [password, setPassword] =
     useState("");
 
+    const [showPassword,
+  setShowPassword] =
+  useState(false);
+
+const [loading,
+  setLoading] =
+  useState(false);
   const handleLogin =
   async () => {
+    setLoading(true);
     try {
       const response =
         await API.post(
@@ -69,10 +79,13 @@ try {
       });
 
       setTimeout(() => {
-        if (
-          user.role ===
-          "donor"
-        ) {
+
+  setLoading(false);
+
+  if (
+    user.role ===
+    "donor"
+  ) {
           router.replace(
             "/(donorTabs)/dashboard"
           );
@@ -83,9 +96,11 @@ try {
         }
       }, 2000);
     } catch (error: any) {
+       setLoading(false);
       console.log(
         error.response?.data
       );
+     
 
       console.log(
         error.message
@@ -131,15 +146,34 @@ try {
           onChangeText={setEmail}
         />
 
-        <TextInput
-          placeholder="Password"
-          style={styles.input}
-          secureTextEntry
-          value={password}
-          onChangeText={
-            setPassword
-          }
-        />
+        <View style={styles.passwordContainer}>
+ <TextInput
+  placeholder="Password"
+  style={styles.passwordInput}
+  secureTextEntry={!showPassword}
+  value={password}
+  onChangeText={setPassword}
+  autoCorrect={false}
+/>
+
+  <TouchableOpacity
+    onPress={() =>
+      setShowPassword(
+        !showPassword
+      )
+    }
+  >
+    <Ionicons
+  name={
+    showPassword
+      ? "eye-off-outline"
+      : "eye-outline"
+  }
+  size={22}
+  color="#6B7280"
+/>
+  </TouchableOpacity>
+</View>
         <TouchableOpacity
   onPress={() =>
     router.push(
@@ -158,10 +192,12 @@ try {
           onPress={handleLogin}
         >
           <Text
-            style={styles.buttonText}
-          >
-            Login
-          </Text>
+  style={styles.buttonText}
+>
+  {loading
+    ? "Signing In..."
+    : "Login"}
+</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -195,6 +231,23 @@ const styles = StyleSheet.create({
 
     padding: 20,
   },
+  passwordContainer: {
+  backgroundColor: "#F3F4F6",
+  borderRadius: 14,
+  paddingHorizontal: 16,
+  flexDirection: "row",
+  alignItems: "center",
+  marginBottom: 20,
+  overflow: "hidden",
+},
+
+passwordInput: {
+  flex: 1,
+  paddingVertical: 16,
+  fontSize: 16,
+  borderWidth: 0,
+  backgroundColor: "transparent",
+},
 
   logo: {
     width: 120,
@@ -230,14 +283,23 @@ const styles = StyleSheet.create({
 },
 
   card: {
-    width: "100%",
+  width: "100%",
 
-    backgroundColor: "white",
+  backgroundColor:
+    "rgba(255,255,255,0.95)",
 
-    borderRadius: 24,
+  borderRadius: 28,
 
-    padding: 25,
-  },
+  padding: 25,
+
+  shadowColor: "#000",
+
+  shadowOpacity: 0.12,
+
+  shadowRadius: 20,
+
+  elevation: 8,
+},
 
   input: {
     backgroundColor: "#F3F4F6",

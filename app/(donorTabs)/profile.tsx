@@ -1,24 +1,24 @@
+import { Ionicons } from "@expo/vector-icons";
 import {
-    Alert,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-} from "react-native";
-
-import {
-    useEffect,
-    useState,
+  useEffect,
+  useState,
 } from "react";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 import * as ImagePicker from "expo-image-picker";
 
 import {
-    getUser,
-    removeUser,
-    saveUser,
+  getUser,
+  removeUser,
+  saveUser,
 } from "../utils/storage";
 
 import { router } from "expo-router";
@@ -133,13 +133,18 @@ const DonorProfile = () => {
       }
     >
      <TouchableOpacity
+  style={{
+    marginBottom: 20,
+  }}
   onPress={() =>
     router.back()
   }
 >
-  <Text style={styles.back}>
-    ← Back
-  </Text>
+  <Ionicons
+    name="arrow-back"
+    size={28}
+    color="#111827"
+  />
 </TouchableOpacity>
 
 <Text style={styles.header}>
