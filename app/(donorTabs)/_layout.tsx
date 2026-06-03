@@ -3,37 +3,31 @@ import { Tabs } from "expo-router";
 import {
   FontAwesome5,
 } from "@expo/vector-icons";
-
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 const DonorTabs = () => {
+  const insets =
+    useSafeAreaInsets();
+
   return (
     <Tabs
-  screenOptions={{
-    headerShown: false,
+      screenOptions={{
+        headerShown: false,
 
-    tabBarActiveTintColor:
-      "#DC2626",
+        tabBarActiveTintColor:
+          "#DC2626",
 
-    tabBarInactiveTintColor:
-      "#9CA3AF",
+        tabBarStyle: {
+          height:
+            65 +
+            insets.bottom,
 
-    tabBarLabelStyle: {
-      fontSize: 12,
-      fontWeight: "600",
-    },
+          paddingBottom:
+            insets.bottom,
 
-    tabBarStyle: {
-      height: 80,
-
-      paddingBottom: 12,
-
-      paddingTop: 8,
-
-      borderTopWidth: 0,
-
-      elevation: 10,
-    },
-  }}
->
+          paddingTop: 8,
+        },
+      }}
+    >
       <Tabs.Screen
         name="dashboard"
         options={{

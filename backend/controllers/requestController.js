@@ -31,6 +31,27 @@ const createRequest = async (
         bloodGroup,
         status:"pending",
       });
+      const donorUser =
+  await User.findById(donor);
+
+if (donorUser?.pushToken) {
+  await fetch(
+    "https://exp.host/--/api/v2/push/send",
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type":
+          "application/json",
+      },
+      body: JSON.stringify({
+        to: donorUser.pushToken,
+        title: "New Blood Request",
+        body: `${patientName} needs blood`,
+      }),
+    }
+  );
+}
 
     res.status(201).json({
       message:
@@ -110,6 +131,7 @@ const updateRequestStatus =
         req.body.status;
 
       await request.save();
+      
 
       res.status(200).json({
         message:

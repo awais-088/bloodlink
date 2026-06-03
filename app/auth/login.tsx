@@ -12,6 +12,7 @@ import {
   SafeAreaView
 } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import { registerForPushNotifications } from "../utils/notifications";
 
 import API from "../api/api";
 
@@ -40,7 +41,17 @@ const LoginScreen = () => {
         response.data.user;
 
       await saveUser(user);
-
+const pushToken =
+  await registerForPushNotifications();
+  if (pushToken) {
+  await API.put(
+    "/auth/save-token",
+    {
+      userId: user._id,
+      pushToken,
+    }
+  );
+}
       Toast.show({
         type: "success",
         text1:

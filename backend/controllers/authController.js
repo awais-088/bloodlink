@@ -220,10 +220,16 @@ const updateAvailability =
           });
       }
 
-      user.password =
-        req.body.newPassword;
+      const salt =
+  await bcrypt.genSalt(10);
 
-      await user.save();
+user.password =
+  await bcrypt.hash(
+    req.body.newPassword,
+    salt
+  );
+
+await user.save();
 
       res.status(200).json({
         message:

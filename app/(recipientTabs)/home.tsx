@@ -6,14 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
-import {
-  SafeAreaView
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { bloodGroups } from "../constants/bloodGroups";
-
 const RecipientHome = () => {
   return (
+    <SafeAreaView style={{flex:1}}>
     <ScrollView
       contentContainerStyle={
         styles.container
@@ -35,7 +34,7 @@ const RecipientHome = () => {
         Find Blood Donors
       </Text>
 
-      <SafeAreaView style={styles.banner}>
+      <View style={styles.banner}>
         <Text style={styles.bannerTitle}>
           Need Blood?
         </Text>
@@ -44,9 +43,9 @@ const RecipientHome = () => {
           Select a blood group to
           find donors near you.
         </Text>
-      </SafeAreaView>
+      </View>
 
-      <SafeAreaView style={styles.groupContainer}>
+      <View style={styles.groupContainer}>
         {bloodGroups.map(
           (group) => (
             <TouchableOpacity
@@ -83,8 +82,9 @@ const RecipientHome = () => {
             </TouchableOpacity>
           )
         )}
-      </SafeAreaView>
+      </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

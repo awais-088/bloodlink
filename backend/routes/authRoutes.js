@@ -1,5 +1,5 @@
 const express = require("express");
-
+const User = require("../models/User");
 const router = express.Router();
 
 const {
@@ -52,4 +52,26 @@ router.put(
   resetPassword
 );
 
+//notification route 
+
+router.put(
+  "/save-token",
+  async (req, res) => {
+    const {
+      userId,
+      pushToken,
+    } = req.body;
+
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        pushToken,
+      }
+    );
+
+    res.json({
+      success: true,
+    });
+  }
+);
 module.exports = router;

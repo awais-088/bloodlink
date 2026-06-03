@@ -1,18 +1,19 @@
 import {
+  useEffect,
+  useState,
+} from "react";
+import {
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
-
 import {
-  useEffect,
-  useState,
-} from "react";
+  SafeAreaView
+} from "react-native-safe-area-context";
 
 import {
   router,
@@ -83,11 +84,9 @@ const DonorsScreen = () => {
     };
 
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={
-        false
-      }
+    <SafeAreaView
+      style={{flex:1}}
+  
     >
       <TouchableOpacity
         onPress={() =>
@@ -136,11 +135,12 @@ const DonorsScreen = () => {
       />
 
       <FlatList
-        data={filteredDonors}
-        keyExtractor={(
-          item: any
-        ) => item._id}
-        scrollEnabled={false}
+  data={filteredDonors}
+  keyExtractor={(item:any)=>item._id}
+  scrollEnabled={false}
+  contentContainerStyle={{
+    paddingBottom: 140,
+  }}
         renderItem={({
           item,
         }: any) => (
@@ -199,7 +199,7 @@ const DonorsScreen = () => {
           </View>
         )}
       />
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -207,14 +207,16 @@ export default DonorsScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+  flex: 1,
 
-    backgroundColor: "#F9FAFB",
+  backgroundColor: "#F9FAFB",
 
-    paddingTop: 60,
+  paddingTop: 60,
 
-    paddingHorizontal: 20,
-  },
+  paddingHorizontal: 20,
+
+  paddingBottom: 120,
+},
 
   topSection: {
     alignItems: "center",
