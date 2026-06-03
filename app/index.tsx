@@ -27,17 +27,17 @@ const fadeAnim =
   ).current;
   const drop1 =
   useRef(
-    new Animated.Value(-100)
+    new Animated.Value(-150)
   ).current;
 
 const drop2 =
   useRef(
-    new Animated.Value(-250)
+    new Animated.Value(-450)
   ).current;
 
 const drop3 =
   useRef(
-    new Animated.Value(-400)
+    new Animated.Value(-750)
   ).current;
   useEffect(() => {
   Animated.loop(
@@ -81,36 +81,48 @@ const drop3 =
     )
   ).start();
   Animated.loop(
-  Animated.timing(
-    drop1,
-    {
-      toValue: 900,
+  Animated.sequence([
+    Animated.timing(drop1, {
+      toValue: 1000,
       duration: 7000,
       useNativeDriver: true,
-    }
-  )
+    }),
+    Animated.timing(drop1, {
+      toValue: -150,
+      duration: 0,
+      useNativeDriver: true,
+    }),
+  ])
 ).start();
 
 Animated.loop(
-  Animated.timing(
-    drop2,
-    {
-      toValue: 900,
+  Animated.sequence([
+    Animated.timing(drop2, {
+      toValue: 1000,
       duration: 9000,
       useNativeDriver: true,
-    }
-  )
+    }),
+    Animated.timing(drop2, {
+      toValue: -450,
+      duration: 0,
+      useNativeDriver: true,
+    }),
+  ])
 ).start();
 
 Animated.loop(
-  Animated.timing(
-    drop3,
-    {
-      toValue: 900,
+  Animated.sequence([
+    Animated.timing(drop3, {
+      toValue: 1000,
       duration: 11000,
       useNativeDriver: true,
-    }
-  )
+    }),
+    Animated.timing(drop3, {
+      toValue: -750,
+      duration: 0,
+      useNativeDriver: true,
+    }),
+  ])
 ).start();
 
 }, []);
@@ -295,14 +307,14 @@ const styles = StyleSheet.create({
 drop: {
   position: "absolute",
 
-  width: 12,
+  width: 8,
 
-  height: 12,
+  height: 16,
 
-  borderRadius: 6,
+  borderRadius: 20,
 
   backgroundColor:
-    "rgba(255,255,255,0.15)",
+    "rgba(255,255,255,0.25)",
 },
 
   logo: {
