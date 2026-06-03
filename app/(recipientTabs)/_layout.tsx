@@ -1,25 +1,38 @@
-import { Tabs } from "expo-router";
-
 import {
-    FontAwesome5,
+  FontAwesome5,
 } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 
 const RecipientTabs = () => {
   return (
     <Tabs
-      screenOptions={{
-        headerShown: false,
+  screenOptions={{
+    headerShown: false,
 
-        tabBarActiveTintColor:
-          "#DC2626",
+    tabBarActiveTintColor:
+      "#DC2626",
 
-        tabBarStyle: {
-          height: 65,
+    tabBarInactiveTintColor:
+      "#9CA3AF",
 
-          paddingBottom: 8,
-        },
-      }}
-    >
+    tabBarLabelStyle: {
+      fontSize: 12,
+      fontWeight: "600",
+    },
+
+    tabBarStyle: {
+      height: 80,
+
+      paddingBottom: 12,
+
+      paddingTop: 8,
+
+      borderTopWidth: 0,
+
+      elevation: 10,
+    },
+  }}
+>
       <Tabs.Screen
         name="home"
         options={{
