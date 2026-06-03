@@ -41,15 +41,22 @@ const LoginScreen = () => {
         response.data.user;
 
       await saveUser(user);
-const pushToken =
-  await registerForPushNotifications();
+try {
+  const pushToken =
+    await registerForPushNotifications();
+
   if (pushToken) {
-  await API.put(
-    "/auth/save-token",
-    {
-      userId: user._id,
-      pushToken,
-    }
+    await API.put(
+      "/auth/save-token",
+      {
+        userId: user._id,
+        pushToken,
+      }
+    );
+  }
+} catch (err) {
+  console.log(
+    "Notification setup skipped"
   );
 }
       Toast.show({

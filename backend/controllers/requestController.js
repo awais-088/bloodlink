@@ -131,7 +131,49 @@ const updateRequestStatus =
         req.body.status;
 
       await request.save();
-      
+
+      const recipient =
+        await User.findById(
+          request.recipient
+        );
+
+      if (
+        recipient?.pushToken
+      ) {
+        const notificationBody =
+          request.status ===
+          "accepted"
+            ? "Your blood request has been accepted ❤️"
+            : "Your blood request has been rejected";
+
+        await fetch(
+          "https://exp.host/--/api/v2/push/send",
+          {
+            method: "POST",
+
+            headers: {
+              Accept:
+                "application/json",
+
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify(
+              {
+                to:
+                  recipient.pushToken,
+
+                title:
+                  "Blood Request Update",
+
+                body:
+                  notificationBody,
+              }
+            ),
+          }
+        );
+      }
 
       res.status(200).json({
         message:
@@ -139,7 +181,8 @@ const updateRequestStatus =
       });
     } catch (error) {
       res.status(500).json({
-        message: error.message,
+        message:
+          error.message,
       });
     }
   };
