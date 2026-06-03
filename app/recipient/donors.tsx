@@ -137,9 +137,9 @@ const DonorsScreen = () => {
       <FlatList
   data={filteredDonors}
   keyExtractor={(item:any)=>item._id}
-  scrollEnabled={false}
+  scrollEnabled={true}
   contentContainerStyle={{
-    paddingBottom: 140,
+    paddingBottom: 200,
   }}
         renderItem={({
           item,

@@ -3,6 +3,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,7 +16,6 @@ import Toast from "react-native-toast-message";
 import API from "../api/api";
 import socket from "../services/socket";
 import { getUser } from "../utils/storage";
-
 const RequestScreen = () => {
   const { donorId, bloodGroup } =
     useLocalSearchParams();
@@ -87,14 +88,25 @@ socket.emit(
 };
 
   return (
-  <ScrollView
-    contentContainerStyle={
-      styles.container
-    }
-    showsVerticalScrollIndicator={
-      false
+  <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={
+      Platform.OS === "ios"
+        ? "padding"
+        : "height"
     }
   >
+    <ScrollView
+      contentContainerStyle={
+        styles.container
+      }
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={
+        false
+      }
+    >
+    
+  
     {/* Back Button */}
 
     <TouchableOpacity
@@ -181,6 +193,7 @@ socket.emit(
       </Text>
     </TouchableOpacity>
   </ScrollView>
+  </KeyboardAvoidingView>
 );
 };
 
