@@ -68,10 +68,6 @@ Download latest APK from Releases section.
 
 ---
 
-## Screenshots
-
-<img width="720" height="1600" alt="11" src="https://github.com/user-attachments/assets/85c9e0f9-eb34-4b39-8f79-2b478fd373f8" />
-
 
 ---
 
