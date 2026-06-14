@@ -6,6 +6,8 @@ import {
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -124,6 +126,14 @@ const DonorProfile = () => {
     };
 
   return (
+    <KeyboardAvoidingView
+  style={{ flex: 1 }}
+  behavior={
+    Platform.OS === "ios"
+      ? "padding"
+      : "height"
+  }
+>
     <ScrollView
       contentContainerStyle={
         styles.container
@@ -131,6 +141,7 @@ const DonorProfile = () => {
       showsVerticalScrollIndicator={
         false
       }
+      keyboardShouldPersistTaps="handled"
     >
      <TouchableOpacity
   style={{
@@ -208,6 +219,7 @@ const DonorProfile = () => {
         </Text>
       </TouchableOpacity>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

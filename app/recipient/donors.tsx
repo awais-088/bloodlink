@@ -84,145 +84,126 @@ const DonorsScreen = () => {
     };
 
   return (
-    <SafeAreaView
-      style={{flex:1}}
-  
+  <SafeAreaView
+    style={{
+      flex: 1,
+      backgroundColor: "#F9FAFB",
+      paddingHorizontal: 20,
+    }}
+  >
+    <TouchableOpacity
+      style={{
+        marginBottom: 15,
+        marginTop: 5,
+      }}
+      onPress={() => router.back()}
     >
-      <TouchableOpacity
-  style={{
-    marginBottom: 15,
-  }}
-  onPress={() =>
-    router.back()
-  }
->
-  <Ionicons
-    name="arrow-back"
-    size={30}
-    color="#111827"
-  />
-</TouchableOpacity>
-
-      <View style={styles.topSection}>
-        <Image
-          source={require("../../assets/images/blood-drop.png")}
-          style={styles.logo}
-        />
-
-        <Text style={styles.appName}>
-          BloodLink
-        </Text>
-
-        <Text style={styles.subtitle}>
-          Find Available Donors
-        </Text>
-      </View>
-
-      <View style={styles.heroCard}>
-        <Text style={styles.heroTitle}>
-          {bloodGroup} Donors
-        </Text>
-
-        <Text style={styles.heroText}>
-          Search donors by city
-          and request blood
-          instantly.
-        </Text>
-      </View>
-
-      <TextInput
-        placeholder="Search by city"
-        value={city}
-        onChangeText={
-          searchByCity
-        }
-        style={styles.search}
+      <Ionicons
+        name="arrow-back"
+        size={30}
+        color="#111827"
       />
+    </TouchableOpacity>
 
-      <FlatList
-  data={filteredDonors}
-  keyExtractor={(item:any)=>item._id}
-  scrollEnabled={true}
-  contentContainerStyle={{
-    paddingBottom: 200,
-  }}
-        renderItem={({
-          item,
-        }: any) => (
-          <View style={styles.card}>
+    <FlatList
+      data={filteredDonors}
+      keyExtractor={(item: any) => item._id}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingBottom: 200,
+      }}
+      ListHeaderComponent={
+        <>
+          <View style={styles.topSection}>
             <Image
-              source={
-                item.profileImage
-                  ? {
-                      uri:
-                        item.profileImage,
-                    }
-                  : require("../../assets/images/user.png")
-              }
-              style={styles.image}
+              source={require("../../assets/images/blood-drop.png")}
+              style={styles.logo}
             />
 
-            <Text style={styles.name}>
-              {item.name}
+            <Text style={styles.appName}>
+              BloodLink
             </Text>
 
-            <Text style={styles.info}>
-              {item.city}
+            <Text style={styles.subtitle}>
+              Find Available Donors
             </Text>
-
-            <Text style={styles.info}>
-              {item.phone}
-            </Text>
-
-            <TouchableOpacity
-              style={
-                styles.requestButton
-              }
-              onPress={() =>
-                router.push({
-                  pathname:
-                    "/recipient/request",
-
-                  params: {
-                    donorId:
-                      item._id,
-
-                    bloodGroup:
-                      item.bloodGroup,
-                  },
-                })
-              }
-            >
-              <Text
-                style={
-                  styles.requestText
-                }
-              >
-                Request Blood
-              </Text>
-            </TouchableOpacity>
           </View>
-        )}
-      />
-    </SafeAreaView>
-  );
+
+          <View style={styles.heroCard}>
+            <Text style={styles.heroTitle}>
+              {bloodGroup} Donors
+            </Text>
+
+            <Text style={styles.heroText}>
+              Search donors by city and
+              request blood instantly.
+            </Text>
+          </View>
+
+          <TextInput
+            placeholder="Search by city"
+            value={city}
+            onChangeText={searchByCity}
+            style={styles.search}
+          />
+        </>
+      }
+      renderItem={({ item }: any) => (
+        <View style={styles.card}>
+          <Image
+            source={
+              item.profileImage
+                ? {
+                    uri: item.profileImage,
+                  }
+                : require("../../assets/images/user.png")
+            }
+            style={styles.image}
+          />
+
+          <Text style={styles.name}>
+            {item.name}
+          </Text>
+
+          <Text style={styles.info}>
+            {item.city}
+          </Text>
+
+          <Text style={styles.info}>
+            {item.phone}
+          </Text>
+
+          <TouchableOpacity
+            style={styles.requestButton}
+            onPress={() =>
+              router.push({
+                pathname:
+                  "/recipient/request",
+                params: {
+                  donorId: item._id,
+                  bloodGroup:
+                    item.bloodGroup,
+                },
+              })
+            }
+          >
+            <Text
+              style={styles.requestText}
+            >
+              Request Blood
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    />
+  </SafeAreaView>
+);
 };
 
 export default DonorsScreen;
 
 const styles = StyleSheet.create({
-  container: {
-  flex: 1,
-
-  backgroundColor: "#F9FAFB",
-
-  paddingTop: 60,
-
-  paddingHorizontal: 20,
-
-  paddingBottom: 120,
-},
-
   topSection: {
     alignItems: "center",
 
@@ -291,18 +272,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  search: {
-    backgroundColor: "white",
+ search: {
+  backgroundColor: "white",
 
-    padding: 16,
+  padding: 16,
 
-    borderRadius: 14,
-    borderWidth:2,
-    borderColor:'#000000',
-    borderStyle:'solid',
+  borderRadius: 14,
 
-    marginBottom: 20,
-  },
+  borderWidth: 1,
+
+  borderColor: "#E5E7EB",
+
+  marginBottom: 20,
+
+  fontSize: 16,
+},
 
   card: {
     backgroundColor: "white",

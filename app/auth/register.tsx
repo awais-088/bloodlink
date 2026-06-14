@@ -1,7 +1,10 @@
 import { useState } from "react";
+
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -83,6 +86,14 @@ const RegisterScreen = () => {
     };
 
   return (
+    <KeyboardAvoidingView
+  style={{ flex: 1 }}
+  behavior={
+    Platform.OS === "ios"
+      ? "padding"
+      : "height"
+  }
+>
     <ScrollView
       contentContainerStyle={
         styles.container
@@ -90,6 +101,7 @@ const RegisterScreen = () => {
       showsVerticalScrollIndicator={
         false
       }
+      keyboardShouldPersistTaps="handled"
     >
       <Image
         source={require("../../assets/images/blood-drop.png")}
@@ -231,6 +243,7 @@ const RegisterScreen = () => {
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

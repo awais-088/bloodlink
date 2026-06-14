@@ -5,6 +5,8 @@ import {
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -131,6 +133,14 @@ const ProfileScreen = () => {
     };
 
   return (
+    <KeyboardAvoidingView
+  style={{ flex: 1 }}
+  behavior={
+    Platform.OS === "ios"
+      ? "padding"
+      : "height"
+  }
+>
     <ScrollView
       contentContainerStyle={
         styles.container
@@ -138,6 +148,7 @@ const ProfileScreen = () => {
       showsVerticalScrollIndicator={
         false
       }
+       keyboardShouldPersistTaps="handled"
     >
       <Text style={styles.header}>
         My Profile
@@ -202,6 +213,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

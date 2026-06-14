@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 import Toast from "react-native-toast-message";
 import API from "../api/api";
 import socket from "../services/socket";
@@ -27,8 +28,20 @@ const RequestScreen = () => {
     useState("");
 
  const handleRequest = async () => {
+  if (
+  !patientName.trim() ||
+  !hospitalName.trim()
+) {
+  Alert.alert(
+    "Validation Error",
+    "Please fill all fields"
+  );
+
+  return;
+}
   console.log("Button pressed");
   try {
+    
     const user =
       await getUser();
       console.log("Donor ID:", donorId);

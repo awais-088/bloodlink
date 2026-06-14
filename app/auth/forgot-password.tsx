@@ -2,6 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -51,6 +53,14 @@ const ForgotPasswordScreen = () => {
     };
 
   return (
+    <KeyboardAvoidingView
+  style={{ flex: 1 }}
+  behavior={
+    Platform.OS === "ios"
+      ? "padding"
+      : "height"
+  }
+>
     <ScrollView
       contentContainerStyle={
         styles.container
@@ -58,6 +68,7 @@ const ForgotPasswordScreen = () => {
       showsVerticalScrollIndicator={
         false
       }
+      keyboardShouldPersistTaps="handled"
     >
       <TouchableOpacity
   style={styles.backButton}
@@ -113,6 +124,7 @@ const ForgotPasswordScreen = () => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

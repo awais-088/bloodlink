@@ -3,6 +3,8 @@ import { router } from "expo-router";
 import { useState } from "react";
 import {
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -117,6 +119,15 @@ try {
   };
 
   return (
+    
+    <KeyboardAvoidingView
+  style={{ flex: 1 }}
+  behavior={
+    Platform.OS === "ios"
+      ? "padding"
+      : "height"
+  }
+>
     <ScrollView
       contentContainerStyle={
         styles.container
@@ -124,6 +135,7 @@ try {
       showsVerticalScrollIndicator={
         false
       }
+      keyboardShouldPersistTaps="handled"
     >
       <Image
         source={require("../../assets/images/blood-drop.png")}
@@ -214,6 +226,7 @@ try {
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
