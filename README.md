@@ -1,50 +1,92 @@
-# Welcome to your Expo app 👋
+# 🩸 BloodLink
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+BloodLink is a Smart Blood Donation Mobile Application developed using React Native, Expo, Node.js, Express.js, and MongoDB Atlas.
 
-## Get started
+The application connects blood donors and recipients in real time and helps users quickly find available donors based on blood group and city.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## Features
 
-2. Start the app
+✅ User Registration & Login
 
-   ```bash
-   npx expo start
-   ```
+✅ Donor & Recipient Roles
 
-In the output, you'll find options to open the app in a
+✅ Blood Group Based Donor Search
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+✅ City Based Donor Search
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+✅ Blood Request System
 
-## Get a fresh project
+✅ Request Acceptance / Rejection
 
-When you're ready, run:
+✅ Push Notifications
 
-```bash
-npm run reset-project
-```
+✅ Profile Management
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+✅ Profile Image Upload
 
-## Learn more
+✅ Persistent Login
 
-To learn more about developing your project with Expo, look at the following resources:
+✅ Mobile Responsive UI
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## Technology Stack
 
-Join our community of developers creating universal apps.
+### Frontend
+- React Native
+- Expo Router
+- TypeScript
+- AsyncStorage
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MongoDB Atlas
+
+### Notifications
+- Expo Notifications
+
+### Deployment
+- Render
+- GitHub Releases
+
+---
+
+## Backend URL
+
+https://bloodlink-1n2b.onrender.com
+
+---
+
+## APK Download
+
+Download latest APK from Releases section.
+
+---
+
+## Screenshots
+
+<img width="720" height="1600" alt="11" src="https://github.com/user-attachments/assets/85c9e0f9-eb34-4b39-8f79-2b478fd373f8" />
+
+
+---
+
+## Future Improvements
+
+- GPS Based Donor Search
+- Hospital Integration
+- Emergency Alerts
+- Blood Donation History
+- Admin Dashboard
+
+---
+
+## Developer
+
+Muhammad Awais
+University of Central Punjab
+BS Software Engineering 
