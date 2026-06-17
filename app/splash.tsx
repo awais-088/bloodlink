@@ -1,9 +1,4 @@
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-} from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 const SplashScreen = () => {
   return (
@@ -13,19 +8,11 @@ const SplashScreen = () => {
         style={styles.image}
       />
 
-      <Text style={styles.logo}>
-        BloodLink
-      </Text>
+      <Text style={styles.logo}>BloodLink</Text>
 
-      <Text style={styles.tagline}>
-        Smart Blood Donation App
-      </Text>
+      <Text style={styles.tagline}>Smart Blood Donation App</Text>
 
-      <ActivityIndicator
-        size="large"
-        color="white"
-        style={styles.loader}
-      />
+      <ActivityIndicator size="large" color="white" style={styles.loader} />
     </SafeAreaView>
   );
 };

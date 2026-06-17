@@ -1,12 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import {
-  router,
-  useLocalSearchParams,
-} from "expo-router";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -14,191 +8,142 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
-import {
-  SafeAreaView
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import API from "../api/api";
 
 const DonorsScreen = () => {
-  const params =
-    useLocalSearchParams();
+  const params = useLocalSearchParams();
 
-  const bloodGroup =
-    String(params.bloodGroup);
+  const bloodGroup = String(params.bloodGroup);
 
-  const [donors, setDonors] =
-    useState<any[]>([]);
+  const [donors, setDonors] = useState<any[]>([]);
 
-  const [
-    filteredDonors,
-    setFilteredDonors,
-  ] = useState<any[]>([]);
+  const [filteredDonors, setFilteredDonors] = useState<any[]>([]);
 
-  const [city, setCity] =
-    useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     fetchDonors();
   }, []);
 
-  const fetchDonors =
-    async () => {
-      try {
-        const response =
-          await API.get(
-            `/donor/blood-group/${bloodGroup}`
-          );
+  const fetchDonors = async () => {
+    try {
+      const response = await API.get(`/donor/blood-group/${bloodGroup}`);
 
-        setDonors(
-          response.data
-        );
+      setDonors(response.data);
 
-        setFilteredDonors(
-          response.data
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      setFilteredDonors(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const searchByCity =
-    (text: string) => {
-      setCity(text);
+  const searchByCity = (text: string) => {
+    setCity(text);
 
-      const filtered =
-        donors.filter(
-          (donor: any) =>
-            donor.city
-              ?.toLowerCase()
-              .includes(
-                text.toLowerCase()
-              )
-        );
+    const filtered = donors.filter((donor: any) =>
+      donor.city?.toLowerCase().includes(text.toLowerCase()),
+    );
 
-      setFilteredDonors(
-        filtered
-      );
-    };
+    setFilteredDonors(filtered);
+  };
 
   return (
-  <SafeAreaView
-    style={{
-      flex: 1,
-      backgroundColor: "#F9FAFB",
-      paddingHorizontal: 20,
-    }}
-  >
-    <TouchableOpacity
+    <SafeAreaView
       style={{
-        marginBottom: 15,
-        marginTop: 5,
+        flex: 1,
+        backgroundColor: "#F9FAFB",
+        paddingHorizontal: 20,
       }}
-      onPress={() => router.back()}
     >
-      <Ionicons
-        name="arrow-back"
-        size={30}
-        color="#111827"
-      />
-    </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          marginBottom: 15,
+          marginTop: 5,
+        }}
+        onPress={() => router.back()}
+      >
+        <Ionicons name="arrow-back" size={30} color="#111827" />
+      </TouchableOpacity>
 
-    <FlatList
-      data={filteredDonors}
-      keyExtractor={(item: any) => item._id}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        paddingBottom: 200,
-      }}
-      ListHeaderComponent={
-        <>
-          <View style={styles.topSection}>
+      <FlatList
+        data={filteredDonors}
+        keyExtractor={(item: any) => item._id}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 200,
+        }}
+        ListHeaderComponent={
+          <>
+            <View style={styles.topSection}>
+              <Image
+                source={require("../../assets/images/blood-drop.png")}
+                style={styles.logo}
+              />
+
+              <Text style={styles.appName}>BloodLink</Text>
+
+              <Text style={styles.subtitle}>Find Available Donors</Text>
+            </View>
+
+            <View style={styles.heroCard}>
+              <Text style={styles.heroTitle}>{bloodGroup} Donors</Text>
+
+              <Text style={styles.heroText}>
+                Search donors by city and request blood instantly.
+              </Text>
+            </View>
+
+            <TextInput
+              placeholder="Search by city"
+              value={city}
+              onChangeText={searchByCity}
+              style={styles.search}
+            />
+          </>
+        }
+        renderItem={({ item }: any) => (
+          <View style={styles.card}>
             <Image
-              source={require("../../assets/images/blood-drop.png")}
-              style={styles.logo}
+              source={
+                item.profileImage
+                  ? {
+                      uri: item.profileImage,
+                    }
+                  : require("../../assets/images/user.png")
+              }
+              style={styles.image}
             />
 
-            <Text style={styles.appName}>
-              BloodLink
-            </Text>
+            <Text style={styles.name}>{item.name}</Text>
 
-            <Text style={styles.subtitle}>
-              Find Available Donors
-            </Text>
-          </View>
+            <Text style={styles.info}>{item.city}</Text>
 
-          <View style={styles.heroCard}>
-            <Text style={styles.heroTitle}>
-              {bloodGroup} Donors
-            </Text>
+            <Text style={styles.info}>{item.phone}</Text>
 
-            <Text style={styles.heroText}>
-              Search donors by city and
-              request blood instantly.
-            </Text>
-          </View>
-
-          <TextInput
-            placeholder="Search by city"
-            value={city}
-            onChangeText={searchByCity}
-            style={styles.search}
-          />
-        </>
-      }
-      renderItem={({ item }: any) => (
-        <View style={styles.card}>
-          <Image
-            source={
-              item.profileImage
-                ? {
-                    uri: item.profileImage,
-                  }
-                : require("../../assets/images/user.png")
-            }
-            style={styles.image}
-          />
-
-          <Text style={styles.name}>
-            {item.name}
-          </Text>
-
-          <Text style={styles.info}>
-            {item.city}
-          </Text>
-
-          <Text style={styles.info}>
-            {item.phone}
-          </Text>
-
-          <TouchableOpacity
-            style={styles.requestButton}
-            onPress={() =>
-              router.push({
-                pathname:
-                  "/recipient/request",
-                params: {
-                  donorId: item._id,
-                  bloodGroup:
-                    item.bloodGroup,
-                },
-              })
-            }
-          >
-            <Text
-              style={styles.requestText}
+            <TouchableOpacity
+              style={styles.requestButton}
+              onPress={() =>
+                router.push({
+                  pathname: "/recipient/request",
+                  params: {
+                    donorId: item._id,
+                    bloodGroup: item.bloodGroup,
+                  },
+                })
+              }
             >
-              Request Blood
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    />
-  </SafeAreaView>
-);
+              <Text style={styles.requestText}>Request Blood</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </SafeAreaView>
+  );
 };
 
 export default DonorsScreen;
@@ -272,21 +217,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
- search: {
-  backgroundColor: "white",
+  search: {
+    backgroundColor: "white",
 
-  padding: 16,
+    padding: 16,
 
-  borderRadius: 14,
+    borderRadius: 14,
 
-  borderWidth: 1,
+    borderWidth: 1,
 
-  borderColor: "#E5E7EB",
+    borderColor: "#E5E7EB",
 
-  marginBottom: 20,
+    marginBottom: 20,
 
-  fontSize: 16,
-},
+    fontSize: 16,
+  },
 
   card: {
     backgroundColor: "white",

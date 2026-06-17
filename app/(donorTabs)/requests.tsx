@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import {
   ActivityIndicator,
@@ -11,193 +8,119 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import {
-  SafeAreaView
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import API from "../api/api";
 
 import { getUser } from "../utils/storage";
 
 const RequestsScreen = () => {
-  const [requests, setRequests] =
-    useState<any[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadRequests();
   }, []);
 
-  const loadRequests =
-    async () => {
-      try {
-        const user =
-          await getUser();
+  const loadRequests = async () => {
+    try {
+      const user = await getUser();
 
-        console.log(
-          "DONOR ID:",
-          user._id
-        );
+      console.log("DONOR ID:", user._id);
 
-        const response =
-          await API.get(
-            `/request/donor/${user._id}`
-          );
+      const response = await API.get(`/request/donor/${user._id}`);
 
-        console.log(
-          "REQUEST DATA:",
-          response.data
-        );
+      console.log("REQUEST DATA:", response.data);
 
-        setRequests(response.data);
+      setRequests(response.data);
 
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
 
-        Alert.alert(
-          "Error",
-          "Failed to load requests"
-        );
+      Alert.alert("Error", "Failed to load requests");
 
-        setLoading(false);
-      }
-    };
+      setLoading(false);
+    }
+  };
 
-  const updateStatus =
-    async (
-      id: string,
-      status: string
-    ) => {
-      try {
-        await API.put(
-          `/request/${id}`,
-          {
-            status,
-          }
-        );
+  const updateStatus = async (id: string, status: string) => {
+    try {
+      await API.put(`/request/${id}`, {
+        status,
+      });
 
-        Alert.alert(
-          "Success",
-          `Request ${status}`
-        );
+      Alert.alert("Success", `Request ${status}`);
 
-        loadRequests();
-      } catch (error) {
-        Alert.alert(
-          "Error",
-          "Update failed"
-        );
-      }
-    };
+      loadRequests();
+    } catch (error) {
+      Alert.alert("Error", "Update failed");
+    }
+  };
 
   if (loading) {
     return (
       <SafeAreaView style={styles.loader}>
-        <ActivityIndicator
-          size="large"
-          color="#DC2626"
-        />
+        <ActivityIndicator size="large" color="#DC2626" />
       </SafeAreaView>
     );
   }
 
   return (
     <ScrollView
-      contentContainerStyle={
-        styles.container
-      }
-      showsVerticalScrollIndicator={
-        false
-      }
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.header}>
-        Blood Requests
-      </Text>
+      <Text style={styles.header}>Blood Requests</Text>
 
       {requests.length === 0 ? (
-        <Text style={styles.empty}>
-          No requests found
-        </Text>
+        <Text style={styles.empty}>No requests found</Text>
       ) : (
         requests.map((item) => (
-          <SafeAreaView
-  key={item._id}
-  style={styles.card}
->
-  <Text style={styles.bloodIcon}>
-    🩸
-  </Text>
+          <SafeAreaView key={item._id} style={styles.card}>
+            <Text style={styles.bloodIcon}>🩸</Text>
 
-  <Text style={styles.name}>
-    {item.recipient?.name}
-  </Text>
+            <Text style={styles.name}>{item.recipient?.name}</Text>
 
-  <Text style={styles.info}>
-    Patient: {item.patientName}
-  </Text>
+            <Text style={styles.info}>Patient: {item.patientName}</Text>
 
-  <Text style={styles.info}>
-    Blood Group: {item.bloodGroup}
-  </Text>
+            <Text style={styles.info}>Blood Group: {item.bloodGroup}</Text>
 
-  <Text style={styles.info}>
-    Hospital: {item.hospitalName}
-  </Text>
+            <Text style={styles.info}>Hospital: {item.hospitalName}</Text>
 
-  <Text style={styles.info}>
-    Phone: {item.recipient?.phone}
-  </Text>
+            <Text style={styles.info}>Phone: {item.recipient?.phone}</Text>
 
-  <Text
-    style={[
-      styles.status,
-      item.status === "accepted"
-        ? styles.accepted
-        : item.status === "rejected"
-        ? styles.rejected
-        : styles.pending,
-    ]}
-  >
-    {item.status.toUpperCase()}
-  </Text>
+            <Text
+              style={[
+                styles.status,
+                item.status === "accepted"
+                  ? styles.accepted
+                  : item.status === "rejected"
+                    ? styles.rejected
+                    : styles.pending,
+              ]}
+            >
+              {item.status.toUpperCase()}
+            </Text>
 
-  {item.status === "pending" && (
-    <SafeAreaView
-      style={styles.buttonRow}
-    >
-      <TouchableOpacity
-        style={styles.acceptButton}
-        onPress={() =>
-          updateStatus(
-            item._id,
-            "accepted"
-          )
-        }
-      >
-        <Text style={styles.buttonText}>
-          Accept
-        </Text>
-      </TouchableOpacity>
+            {item.status === "pending" && (
+              <SafeAreaView style={styles.buttonRow}>
+                <TouchableOpacity
+                  style={styles.acceptButton}
+                  onPress={() => updateStatus(item._id, "accepted")}
+                >
+                  <Text style={styles.buttonText}>Accept</Text>
+                </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.rejectButton}
-        onPress={() =>
-          updateStatus(
-            item._id,
-            "rejected"
-          )
-        }
-      >
-        <Text style={styles.buttonText}>
-          Reject
-        </Text>
-      </TouchableOpacity>
-    </SafeAreaView>
-  )}
-</SafeAreaView>
-          
+                <TouchableOpacity
+                  style={styles.rejectButton}
+                  onPress={() => updateStatus(item._id, "rejected")}
+                >
+                  <Text style={styles.buttonText}>Reject</Text>
+                </TouchableOpacity>
+              </SafeAreaView>
+            )}
+          </SafeAreaView>
         ))
       )}
     </ScrollView>
@@ -215,31 +138,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bloodIcon: {
-  fontSize: 40,
-  textAlign: "center",
-  marginBottom: 10,
-},
+    fontSize: 40,
+    textAlign: "center",
+    marginBottom: 10,
+  },
 
-status: {
-  marginTop: 12,
-  paddingVertical: 8,
-  borderRadius: 10,
-  textAlign: "center",
-  color: "white",
-  fontWeight: "bold",
-},
+  status: {
+    marginTop: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
+  },
 
-accepted: {
-  backgroundColor: "#16A34A",
-},
+  accepted: {
+    backgroundColor: "#16A34A",
+  },
 
-rejected: {
-  backgroundColor: "#DC2626",
-},
+  rejected: {
+    backgroundColor: "#DC2626",
+  },
 
-pending: {
-  backgroundColor: "#F59E0B",
-},
+  pending: {
+    backgroundColor: "#F59E0B",
+  },
 
   container: {
     flexGrow: 1,
@@ -274,22 +197,21 @@ pending: {
   },
 
   card: {
-   
-  backgroundColor: "white",
+    backgroundColor: "white",
 
-  padding: 20,
+    padding: 20,
 
-  borderRadius: 20,
+    borderRadius: 20,
 
-  marginBottom: 20,
+    marginBottom: 20,
 
-  shadowColor: "#000",
+    shadowColor: "#000",
 
-  shadowOpacity: 0.08,
+    shadowOpacity: 0.08,
 
-  shadowRadius: 10,
+    shadowRadius: 10,
 
-  elevation: 5,
+    elevation: 5,
   },
 
   name: {
@@ -313,8 +235,7 @@ pending: {
   buttonRow: {
     flexDirection: "row",
 
-    justifyContent:
-      "space-between",
+    justifyContent: "space-between",
 
     marginTop: 20,
   },

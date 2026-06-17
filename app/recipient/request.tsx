@@ -18,196 +18,128 @@ import API from "../api/api";
 import socket from "../services/socket";
 import { getUser } from "../utils/storage";
 const RequestScreen = () => {
-  const { donorId, bloodGroup } =
-    useLocalSearchParams();
+  const { donorId, bloodGroup } = useLocalSearchParams();
 
-  const [patientName, setPatientName] =
-    useState("");
+  const [patientName, setPatientName] = useState("");
 
-  const [hospitalName, setHospitalName] =
-    useState("");
+  const [hospitalName, setHospitalName] = useState("");
 
- const handleRequest = async () => {
-  if (
-  !patientName.trim() ||
-  !hospitalName.trim()
-) {
-  Alert.alert(
-    "Validation Error",
-    "Please fill all fields"
-  );
+  const handleRequest = async () => {
+    if (!patientName.trim() || !hospitalName.trim()) {
+      Alert.alert("Validation Error", "Please fill all fields");
 
-  return;
-}
-  console.log("Button pressed");
-  try {
-    
-    const user =
-      await getUser();
+      return;
+    }
+    console.log("Button pressed");
+    try {
+      const user = await getUser();
       console.log("Donor ID:", donorId);
-console.log("Blood Group:", bloodGroup);
-await API.post(
-  "/request/create",
-  {
-    recipient: user._id,
+      console.log("Blood Group:", bloodGroup);
+      await API.post("/request/create", {
+        recipient: user._id,
 
-    donor: String(donorId),
+        donor: String(donorId),
 
-    patientName,
+        patientName,
 
-    hospitalName,
+        hospitalName,
 
-    bloodGroup: String(
-      bloodGroup
-    ),
-  }
-);
-console.log("Request Sent Successfully");
-  
-    Toast.show({
-  type: "success",
-  text1: "Request Sent",
-  text2:
-    "Blood request sent successfully",
-});
+        bloodGroup: String(bloodGroup),
+      });
+      console.log("Request Sent Successfully");
 
-setTimeout(() => {
-  router.back();
-}, 2500);
+      Toast.show({
+        type: "success",
+        text1: "Request Sent",
+        text2: "Blood request sent successfully",
+      });
 
-socket.emit(
-  "sendRequest",
-  {
-    donorId,
-    message:
-      "New Blood Request",
-  }
-);
-  } catch (error: any) {
-  console.log("REQUEST ERROR:", error);
+      setTimeout(() => {
+        router.back();
+      }, 2500);
 
-  if (error.response) {
-    console.log(
-      "SERVER ERROR:",
-      error.response.data
-    );
-  }
+      socket.emit("sendRequest", {
+        donorId,
+        message: "New Blood Request",
+      });
+    } catch (error: any) {
+      console.log("REQUEST ERROR:", error);
 
-  Alert.alert(
-    "Error",
-    "Failed to send request"
-  );
-}
-};
+      if (error.response) {
+        console.log("SERVER ERROR:", error.response.data);
+      }
+
+      Alert.alert("Error", "Failed to send request");
+    }
+  };
 
   return (
-  <KeyboardAvoidingView
-    style={{ flex: 1 }}
-    behavior={
-      Platform.OS === "ios"
-        ? "padding"
-        : "height"
-    }
-  >
-    <ScrollView
-      contentContainerStyle={
-        styles.container
-      }
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={
-        false
-      }
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-    
-  
-    {/* Back Button */}
-
-    <TouchableOpacity
-      style={styles.backButton}
-      onPress={() =>
-        router.back()
-      }
-    >
-      <Ionicons
-        name="arrow-back"
-        size={28}
-        color="#111827"
-      />
-    </TouchableOpacity>
-
-    {/* Banner */}
-
-    <View style={styles.banner}>
-      <Text style={styles.bannerIcon}>
-        🩸
-      </Text>
-
-      <Text style={styles.bannerTitle}>
-        Blood Request
-      </Text>
-
-      <Text style={styles.bannerText}>
-        Fill in the patient details
-        to send a blood request to
-        the donor.
-      </Text>
-    </View>
-
-    {/* Blood Group Card */}
-
-    <View style={styles.groupCard}>
-      <Text style={styles.groupLabel}>
-        Requested Blood Group
-      </Text>
-
-      <Text style={styles.groupValue}>
-        {bloodGroup}
-      </Text>
-    </View>
-
-    {/* Form */}
-
-    <Text style={styles.label}>
-      Patient Name
-    </Text>
-
-    <TextInput
-      placeholder="Enter patient name"
-      style={styles.input}
-      value={patientName}
-      onChangeText={setPatientName}
-    />
-
-    <Text style={styles.label}>
-      Hospital Name
-    </Text>
-
-    <TextInput
-      placeholder="Enter hospital name"
-      style={styles.input}
-      value={hospitalName}
-      onChangeText={setHospitalName}
-    />
-
-    <TouchableOpacity
-      style={styles.button}
-      onPress={handleRequest}
-    >
-      <Ionicons
-        name="send"
-        size={18}
-        color="white"
-      />
-
-      <Text
-        style={styles.buttonText}
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        Send Request
-      </Text>
-    </TouchableOpacity>
-  </ScrollView>
-  </KeyboardAvoidingView>
-);
+        {/* Back Button */}
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Ionicons name="arrow-back" size={28} color="#111827" />
+        </TouchableOpacity>
+
+        {/* Banner */}
+
+        <View style={styles.banner}>
+          <Text style={styles.bannerIcon}>🩸</Text>
+
+          <Text style={styles.bannerTitle}>Blood Request</Text>
+
+          <Text style={styles.bannerText}>
+            Fill in the patient details to send a blood request to the donor.
+          </Text>
+        </View>
+
+        {/* Blood Group Card */}
+
+        <View style={styles.groupCard}>
+          <Text style={styles.groupLabel}>Requested Blood Group</Text>
+
+          <Text style={styles.groupValue}>{bloodGroup}</Text>
+        </View>
+
+        {/* Form */}
+
+        <Text style={styles.label}>Patient Name</Text>
+
+        <TextInput
+          placeholder="Enter patient name"
+          style={styles.input}
+          value={patientName}
+          onChangeText={setPatientName}
+        />
+
+        <Text style={styles.label}>Hospital Name</Text>
+
+        <TextInput
+          placeholder="Enter hospital name"
+          style={styles.input}
+          value={hospitalName}
+          onChangeText={setHospitalName}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleRequest}>
+          <Ionicons name="send" size={18} color="white" />
+
+          <Text style={styles.buttonText}>Send Request</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 };
 
 export default RequestScreen;

@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Image,
@@ -13,45 +10,33 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import {
-  SafeAreaView
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as ImagePicker from "expo-image-picker";
 
-import {
-  getUser,
-  removeUser,
-  saveUser,
-} from "../utils/storage";
+import { getUser, removeUser, saveUser } from "../utils/storage";
 
 import { router } from "expo-router";
 
 import API from "../api/api";
 
 const ProfileScreen = () => {
-  const [user, setUser] =
-    useState<any>(null);
+  const [user, setUser] = useState<any>(null);
 
-  const [name, setName] =
-    useState("");
+  const [name, setName] = useState("");
 
-  const [phone, setPhone] =
-    useState("");
+  const [phone, setPhone] = useState("");
 
-  const [city, setCity] =
-    useState("");
+  const [city, setCity] = useState("");
 
-  const [image, setImage] =
-    useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     loadUser();
   }, []);
 
   const loadUser = async () => {
-    const loggedInUser =
-      await getUser();
+    const loggedInUser = await getUser();
 
     setUser(loggedInUser);
 
@@ -61,158 +46,106 @@ const ProfileScreen = () => {
 
     setCity(loggedInUser.city);
 
-    setImage(
-      loggedInUser.profileImage
-    );
+    setImage(loggedInUser.profileImage);
   };
 
-  const pickImage =
-    async () => {
-      const result =
-        await ImagePicker.launchImageLibraryAsync(
-          {
-            mediaTypes:
-              ImagePicker.MediaTypeOptions.Images,
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
 
-            allowsEditing: true,
+      allowsEditing: true,
 
-            aspect: [1, 1],
+      aspect: [1, 1],
 
-            quality: 1,
-          }
-        );
+      quality: 1,
+    });
 
-      if (!result.canceled) {
-        setImage(
-          result.assets[0].uri
-        );
-      }
-    };
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
-  const handleUpdate =
-    async () => {
-      try {
-        const response =
-          await API.put(
-            `/auth/profile/${user._id}`,
-            {
-              name,
-              phone,
-              city,
-              profileImage:
-                image,
-            }
-          );
+  const handleUpdate = async () => {
+    try {
+      const response = await API.put(`/auth/profile/${user._id}`, {
+        name,
+        phone,
+        city,
+        profileImage: image,
+      });
 
-        const updatedUser =
-          response.data.user;
+      const updatedUser = response.data.user;
 
-        setUser(updatedUser);
+      setUser(updatedUser);
 
-        await saveUser(
-          updatedUser
-        );
+      await saveUser(updatedUser);
 
-        Alert.alert(
-          "Success",
-          "Profile updated successfully"
-        );
-      } catch (error) {
-        Alert.alert(
-          "Error",
-          "Update failed"
-        );
-      }
-    };
+      Alert.alert("Success", "Profile updated successfully");
+    } catch (error) {
+      Alert.alert("Error", "Update failed");
+    }
+  };
 
-  const handleLogout =
-    async () => {
-      await removeUser();
+  const handleLogout = async () => {
+    await removeUser();
 
-      router.replace("/");
-    };
+    router.replace("/");
+  };
 
   return (
     <KeyboardAvoidingView
-  style={{ flex: 1 }}
-  behavior={
-    Platform.OS === "ios"
-      ? "padding"
-      : "height"
-  }
->
-    <ScrollView
-      contentContainerStyle={
-        styles.container
-      }
-      showsVerticalScrollIndicator={
-        false
-      }
-       keyboardShouldPersistTaps="handled"
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.header}>
-        My Profile
-      </Text>
-
-      <TouchableOpacity
-        onPress={pickImage}
-        style={styles.imageContainer}
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
-       <Image
-  source={
-    image
-      ? { uri: image }
-      : require("../../assets/images/user.png")
-  }
-  style={styles.image}
-/>
+        <Text style={styles.header}>My Profile</Text>
 
-        <Text style={styles.changePhoto}>
-          Change Photo
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+          <Image
+            source={
+              image ? { uri: image } : require("../../assets/images/user.png")
+            }
+            style={styles.image}
+          />
 
-      <SafeAreaView style={styles.card}>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={setName}
-          placeholder="Name"
-        />
-
-        <TextInput
-          style={styles.input}
-          value={phone}
-          onChangeText={setPhone}
-          placeholder="Phone"
-        />
-
-        <TextInput
-          style={styles.input}
-          value={city}
-          onChangeText={setCity}
-          placeholder="City"
-        />
-
-        <TouchableOpacity
-          style={styles.updateButton}
-          onPress={handleUpdate}
-        >
-          <Text style={styles.buttonText}>
-            Update Profile
-          </Text>
+          <Text style={styles.changePhoto}>Change Photo</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.logoutButton}
-          onPress={handleLogout}
-        >
-          <Text style={styles.buttonText}>
-            Logout
-          </Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </ScrollView>
+        <SafeAreaView style={styles.card}>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Name"
+          />
+
+          <TextInput
+            style={styles.input}
+            value={phone}
+            onChangeText={setPhone}
+            placeholder="Phone"
+          />
+
+          <TextInput
+            style={styles.input}
+            value={city}
+            onChangeText={setCity}
+            placeholder="City"
+          />
+
+          <TouchableOpacity style={styles.updateButton} onPress={handleUpdate}>
+            <Text style={styles.buttonText}>Update Profile</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

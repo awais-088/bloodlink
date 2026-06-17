@@ -12,78 +12,53 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { bloodGroups } from "../constants/bloodGroups";
 const RecipientHome = () => {
   return (
-    <SafeAreaView style={{flex:1}}>
-    <ScrollView
-      contentContainerStyle={
-        styles.container
-      }
-      showsVerticalScrollIndicator={
-        false
-      }
-    >
-      <Image
-        source={require("../../assets/images/blood-drop.png")}
-        style={styles.logo}
-      />
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <Image
+          source={require("../../assets/images/blood-drop.png")}
+          style={styles.logo}
+        />
 
-      <Text style={styles.title}>
-        BloodLink
-      </Text>
+        <Text style={styles.title}>BloodLink</Text>
 
-      <Text style={styles.subtitle}>
-        Find Blood Donors
-      </Text>
+        <Text style={styles.subtitle}>Find Blood Donors</Text>
 
-      <View style={styles.banner}>
-        <Text style={styles.bannerTitle}>
-          Need Blood?
-        </Text>
+        <View style={styles.banner}>
+          <Text style={styles.bannerTitle}>Need Blood?</Text>
 
-        <Text style={styles.bannerText}>
-          Select a blood group to
-          find donors near you.
-        </Text>
-      </View>
+          <Text style={styles.bannerText}>
+            Select a blood group to find donors near you.
+          </Text>
+        </View>
 
-      <View style={styles.groupContainer}>
-        {bloodGroups.map(
-          (group) => (
+        <View style={styles.groupContainer}>
+          {bloodGroups.map((group) => (
             <TouchableOpacity
               key={group}
-              style={
-                styles.groupCard
-              }
+              style={styles.groupCard}
               onPress={() =>
                 router.push({
-                  pathname:
-                    "/recipient/donors",
+                  pathname: "/recipient/donors",
 
                   params: {
-                    bloodGroup:
-                      group,
+                    bloodGroup: group,
                   },
                 })
               }
             >
               <Image
                 source={require("../../assets/images/blood-drop.png")}
-                style={
-                  styles.groupIcon
-                }
+                style={styles.groupIcon}
               />
 
-              <Text
-                style={
-                  styles.groupText
-                }
-              >
-                {group}
-              </Text>
+              <Text style={styles.groupText}>{group}</Text>
             </TouchableOpacity>
-          )
-        )}
-      </View>
-    </ScrollView>
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -164,8 +139,7 @@ const styles = StyleSheet.create({
 
     flexWrap: "wrap",
 
-    justifyContent:
-      "space-between",
+    justifyContent: "space-between",
   },
 
   groupCard: {

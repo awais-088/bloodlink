@@ -1,9 +1,6 @@
-const express = require(
-  "express"
-);
+const express = require("express");
 
-const router =
-  express.Router();
+const router = express.Router();
 
 const {
   createRequest,
@@ -11,48 +8,26 @@ const {
   updateRequestStatus,
   getRecipientRequests,
   getDonors,
-} = require(
-  "../controllers/requestController"
-);
-
+} = require("../controllers/requestController");
 
 // CREATE REQUEST
 
-router.post(
-  "/create",
-  createRequest
-);
-
+router.post("/create", createRequest);
 
 // GET DONORS
 
-router.get(
-  "/donors",
-  getDonors
-);
-
+router.get("/donors", getDonors);
 
 // GET DONOR REQUESTS
 
-router.get(
-  "/donor/:id",
-  getDonorRequests
-);
-
+router.get("/donor/:id", getDonorRequests);
 
 // UPDATE STATUS
 
-router.put(
-  "/:id",
-  updateRequestStatus
-);
-
+router.put("/:id", updateRequestStatus);
 
 // RECIPIENT HISTORY
 
-router.get(
-  "/recipient/:id",
-  getRecipientRequests
-);
+router.get("/recipient/:id", getRecipientRequests);
 
 module.exports = router;

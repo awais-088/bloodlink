@@ -18,9 +18,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     pushToken: {
-  type: String,
-  default: "",
-},
+      type: String,
+      default: "",
+    },
 
     phone: {
       type: String,
@@ -43,9 +43,9 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     profileImage: {
-  type: String,
-  default: "",
-},
+      type: String,
+      default: "",
+    },
 
     available: {
       type: Boolean,
@@ -55,10 +55,7 @@ const userSchema = new mongoose.Schema(
 
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model(
-  "User",
-  userSchema
-);
+module.exports = mongoose.model("User", userSchema);

@@ -1,9 +1,6 @@
 import { router } from "expo-router";
 
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import {
   ActivityIndicator,
@@ -15,26 +12,17 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import {
-  SafeAreaView
-} from "react-native-safe-area-context";
-import {
-  getUser,
-  removeUser,
-  saveUser,
-} from "../utils/storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { getUser, removeUser, saveUser } from "../utils/storage";
 
 import API from "../api/api";
 
 const DonorDashboard = () => {
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const [available, setAvailable] =
-    useState(true);
+  const [available, setAvailable] = useState(true);
 
-  const [user, setUser] =
-    useState<any>(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     loadUser();
@@ -42,14 +30,11 @@ const DonorDashboard = () => {
 
   const loadUser = async () => {
     try {
-      const loggedInUser =
-        await getUser();
+      const loggedInUser = await getUser();
 
       setUser(loggedInUser);
 
-      setAvailable(
-        loggedInUser?.available
-      );
+      setAvailable(loggedInUser?.available);
 
       setLoading(false);
     } catch (error) {
@@ -57,121 +42,77 @@ const DonorDashboard = () => {
     }
   };
 
-  const handleAvailability =
-    async (value: boolean) => {
-      try {
-        setAvailable(value);
+  const handleAvailability = async (value: boolean) => {
+    try {
+      setAvailable(value);
 
-        await API.put(
-          `/auth/availability/${user._id}`,
-          {
-            available: value,
-          }
-        );
+      await API.put(`/auth/availability/${user._id}`, {
+        available: value,
+      });
 
-        const updatedUser = {
-          ...user,
-          available: value,
-        };
+      const updatedUser = {
+        ...user,
+        available: value,
+      };
 
-        setUser(updatedUser);
+      setUser(updatedUser);
 
-        await saveUser(updatedUser);
+      await saveUser(updatedUser);
 
-        Alert.alert(
-          "Success",
-          "Availability updated"
-        );
-      } catch (error) {
-        Alert.alert(
-          "Error",
-          "Failed to update"
-        );
-      }
-    };
+      Alert.alert("Success", "Availability updated");
+    } catch (error) {
+      Alert.alert("Error", "Failed to update");
+    }
+  };
 
-  const handleLogout =
-    async () => {
-      await removeUser();
+  const handleLogout = async () => {
+    await removeUser();
 
-      Alert.alert(
-        "Success",
-        "Logged out successfully"
-      );
+    Alert.alert("Success", "Logged out successfully");
 
-      router.replace("/");
-    };
+    router.replace("/");
+  };
 
   if (loading) {
     return (
       <SafeAreaView style={styles.loader}>
-        <ActivityIndicator
-          size="large"
-          color="#DC2626"
-        />
+        <ActivityIndicator size="large" color="#DC2626" />
       </SafeAreaView>
     );
   }
 
   return (
     <ScrollView
-      contentContainerStyle={
-        styles.container
-      }
-      showsVerticalScrollIndicator={
-        false
-      }
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.header}>
-        Donor Dashboard
-      </Text>
+      <Text style={styles.header}>Donor Dashboard</Text>
 
       <SafeAreaView style={styles.profileCard}>
         <Image
           source={
             user?.profileImage
               ? {
-                  uri:
-                    user.profileImage,
+                  uri: user.profileImage,
                 }
               : require("../../assets/images/user.png")
           }
           style={styles.avatar}
         />
 
-        <Text style={styles.name}>
-          {user?.name}
-        </Text>
+        <Text style={styles.name}>{user?.name}</Text>
 
-        <Text style={styles.info}>
-          Blood Group:
-          {" "}
-          {user?.bloodGroup}
-        </Text>
+        <Text style={styles.info}>Blood Group: {user?.bloodGroup}</Text>
 
-        <Text style={styles.info}>
-          City: {user?.city}
-        </Text>
+        <Text style={styles.info}>City: {user?.city}</Text>
       </SafeAreaView>
 
-      <SafeAreaView
-        style={
-          styles.availabilityCard
-        }
-      >
-        <Text
-          style={
-            styles.availabilityText
-          }
-        >
-          Availability Status
-        </Text>
+      <SafeAreaView style={styles.availabilityCard}>
+        <Text style={styles.availabilityText}>Availability Status</Text>
 
         <Switch
           value={available}
-          onValueChange={
-            handleAvailability
-          }
+          onValueChange={handleAvailability}
           trackColor={{
             false: "#9CA3AF",
             true: "#DC2626",
@@ -181,24 +122,13 @@ const DonorDashboard = () => {
 
       <TouchableOpacity
         style={styles.profileButton}
-        onPress={() =>
-          router.push(
-            "/(donorTabs)/profile"
-          )
-        }
+        onPress={() => router.push("/(donorTabs)/profile")}
       >
-        <Text style={styles.requestText}>
-          Open Profile
-        </Text>
+        <Text style={styles.requestText}>Open Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.logoutButton}
-        onPress={handleLogout}
-      >
-        <Text style={styles.requestText}>
-          Logout
-        </Text>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.requestText}>Logout</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -286,8 +216,7 @@ const styles = StyleSheet.create({
 
     flexDirection: "row",
 
-    justifyContent:
-      "space-between",
+    justifyContent: "space-between",
 
     alignItems: "center",
 

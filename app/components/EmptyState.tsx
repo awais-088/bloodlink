@@ -1,21 +1,13 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 interface Props {
   message: string;
 }
 
-const EmptyState = ({
-  message,
-}: Props) => {
+const EmptyState = ({ message }: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        {message}
-      </Text>
+      <Text style={styles.text}>{message}</Text>
     </View>
   );
 };

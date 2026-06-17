@@ -8,70 +8,39 @@ const {
   updateAvailability,
   updateProfile,
   resetPassword,
-} = require(
-  "../controllers/authController"
-);
-
+} = require("../controllers/authController");
 
 // REGISTER
 
-router.post(
-  "/register",
-  registerUser
-);
-
+router.post("/register", registerUser);
 
 // LOGIN
 
-router.post(
-  "/login",
-  loginUser
-);
-
+router.post("/login", loginUser);
 
 // UPDATE AVAILABILITY
 
-router.put(
-  "/availability/:id",
-  updateAvailability
-);
-
+router.put("/availability/:id", updateAvailability);
 
 // UPDATE PROFILE
 
-router.put(
-  "/profile/:id",
-  updateProfile
-);
-
+router.put("/profile/:id", updateProfile);
 
 // RESET PASSWORD
 
-router.put(
-  "/reset-password",
-  resetPassword
-);
+router.put("/reset-password", resetPassword);
 
-//notification route 
+//notification route
 
-router.put(
-  "/save-token",
-  async (req, res) => {
-    const {
-      userId,
-      pushToken,
-    } = req.body;
+router.put("/save-token", async (req, res) => {
+  const { userId, pushToken } = req.body;
 
-    await User.findByIdAndUpdate(
-      userId,
-      {
-        pushToken,
-      }
-    );
+  await User.findByIdAndUpdate(userId, {
+    pushToken,
+  });
 
-    res.json({
-      success: true,
-    });
-  }
-);
+  res.json({
+    success: true,
+  });
+});
 module.exports = router;

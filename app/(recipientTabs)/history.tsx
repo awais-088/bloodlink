@@ -1,40 +1,25 @@
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import API from "../api/api";
 import EmptyState from "../components/EmptyState";
 import { getUser } from "../utils/storage";
 
 const HistoryScreen = () => {
-  const [requests, setRequests] =
-    useState<any[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
 
-  const fetchHistory =
-    async () => {
-      try {
-        const user =
-          await getUser();
+  const fetchHistory = async () => {
+    try {
+      const user = await getUser();
 
-        const response =
-          await API.get(
-            `/request/recipient/${user._id}`
-          );
+      const response = await API.get(`/request/recipient/${user._id}`);
 
-        setRequests(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      setRequests(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchHistory();
@@ -42,66 +27,45 @@ const HistoryScreen = () => {
 
   return (
     <ScrollView
-    contentContainerStyle={
-      styles.container
-    }
-    showsVerticalScrollIndicator={
-      false
-    }>
-      <Text style={styles.header}>
-        Request History
-      </Text>
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text style={styles.header}>Request History</Text>
 
       <FlatList
-      ListEmptyComponent={
-  <EmptyState
-    message="No Blood Requests Yet"
-  />
-}
+        ListEmptyComponent={<EmptyState message="No Blood Requests Yet" />}
         data={requests}
-        keyExtractor={(item: any) =>
-          item._id
-        }
+        keyExtractor={(item: any) => item._id}
         renderItem={({ item }: any) => (
-  <View style={styles.card}>
-    <Text style={styles.bloodIcon}>
-      🩸
-    </Text>
+          <View style={styles.card}>
+            <Text style={styles.bloodIcon}>🩸</Text>
 
-    <Text style={styles.name}>
-      {item.donor?.name}
-    </Text>
+            <Text style={styles.name}>{item.donor?.name}</Text>
 
-    <Text style={styles.info}>
-      Blood Group: {item.donor?.bloodGroup}
-    </Text>
+            <Text style={styles.info}>
+              Blood Group: {item.donor?.bloodGroup}
+            </Text>
 
-    <Text style={styles.info}>
-      Patient: {item.patientName}
-    </Text>
+            <Text style={styles.info}>Patient: {item.patientName}</Text>
 
-    <Text style={styles.info}>
-      Hospital: {item.hospitalName}
-    </Text>
+            <Text style={styles.info}>Hospital: {item.hospitalName}</Text>
 
-    <Text style={styles.info}>
-      Phone: {item.donor?.phone}
-    </Text>
+            <Text style={styles.info}>Phone: {item.donor?.phone}</Text>
 
-    <Text
-      style={[
-        styles.statusBadge,
-        item.status === "accepted"
-          ? styles.accepted
-          : item.status === "rejected"
-          ? styles.rejected
-          : styles.pending,
-      ]}
-    >
-      {item.status.toUpperCase()}
-    </Text>
-  </View>
-)}
+            <Text
+              style={[
+                styles.statusBadge,
+                item.status === "accepted"
+                  ? styles.accepted
+                  : item.status === "rejected"
+                    ? styles.rejected
+                    : styles.pending,
+              ]}
+            >
+              {item.status.toUpperCase()}
+            </Text>
+          </View>
+        )}
       />
     </ScrollView>
   );
@@ -120,68 +84,68 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   bloodIcon: {
-  fontSize: 42,
+    fontSize: 42,
 
-  textAlign: "center",
+    textAlign: "center",
 
-  marginBottom: 10,
-},
+    marginBottom: 10,
+  },
 
-statusBadge: {
-  marginTop: 15,
+  statusBadge: {
+    marginTop: 15,
 
-  textAlign: "center",
+    textAlign: "center",
 
-  paddingVertical: 10,
+    paddingVertical: 10,
 
-  borderRadius: 12,
+    borderRadius: 12,
 
-  color: "#FFFFFF",
+    color: "#FFFFFF",
 
-  fontWeight: "bold",
+    fontWeight: "bold",
 
-  overflow: "hidden",
-},
+    overflow: "hidden",
+  },
 
-accepted: {
-  backgroundColor: "#16A34A",
-},
+  accepted: {
+    backgroundColor: "#16A34A",
+  },
 
-rejected: {
-  backgroundColor: "#DC2626",
-},
+  rejected: {
+    backgroundColor: "#DC2626",
+  },
 
-pending: {
-  backgroundColor: "#F59E0B",
-},
+  pending: {
+    backgroundColor: "#F59E0B",
+  },
 
- header: {
-  fontSize: 32,
+  header: {
+    fontSize: 32,
 
-  fontWeight: "bold",
+    fontWeight: "bold",
 
-  color: "#111827",
+    color: "#111827",
 
-  marginBottom: 25,
-},
+    marginBottom: 25,
+  },
 
   card: {
-  backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF",
 
-  padding: 22,
+    padding: 22,
 
-  borderRadius: 24,
+    borderRadius: 24,
 
-  marginBottom: 18,
+    marginBottom: 18,
 
-  shadowColor: "#000",
+    shadowColor: "#000",
 
-  shadowOpacity: 0.08,
+    shadowOpacity: 0.08,
 
-  shadowRadius: 12,
+    shadowRadius: 12,
 
-  elevation: 5,
-},
+    elevation: 5,
+  },
 
   name: {
     fontSize: 20,

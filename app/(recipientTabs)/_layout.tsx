@@ -1,27 +1,20 @@
-import {
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const RecipientTabs = () => {
-  const insets =
-    useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
 
-        tabBarActiveTintColor:
-          "#DC2626",
+        tabBarActiveTintColor: "#DC2626",
 
         tabBarStyle: {
-          height:
-            65 +
-            insets.bottom,
+          height: 65 + insets.bottom,
 
-          paddingBottom:
-            insets.bottom,
+          paddingBottom: insets.bottom,
 
           paddingTop: 8,
         },
@@ -32,15 +25,8 @@ const RecipientTabs = () => {
         options={{
           title: "Home",
 
-          tabBarIcon: ({
-            color,
-            size,
-          }) => (
-            <FontAwesome5
-              name="home"
-              size={size}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="home" size={size} color={color} />
           ),
         }}
       />
@@ -50,15 +36,8 @@ const RecipientTabs = () => {
         options={{
           title: "History",
 
-          tabBarIcon: ({
-            color,
-            size,
-          }) => (
-            <FontAwesome5
-              name="history"
-              size={size}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="history" size={size} color={color} />
           ),
         }}
       />
@@ -68,15 +47,8 @@ const RecipientTabs = () => {
         options={{
           title: "Profile",
 
-          tabBarIcon: ({
-            color,
-            size,
-          }) => (
-            <FontAwesome5
-              name="user"
-              size={size}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="user" size={size} color={color} />
           ),
         }}
       />

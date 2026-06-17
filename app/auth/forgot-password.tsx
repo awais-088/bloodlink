@@ -19,111 +19,72 @@ import { router } from "expo-router";
 import API from "../api/api";
 
 const ForgotPasswordScreen = () => {
-  const [email, setEmail] =
-    useState("");
+  const [email, setEmail] = useState("");
 
-  const [newPassword, setNewPassword] =
-    useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-  const handleReset =
-    async () => {
-      try {
-        await API.put(
-          "/auth/reset-password",
-          {
-            email,
-            newPassword,
-          }
-        );
+  const handleReset = async () => {
+    try {
+      await API.put("/auth/reset-password", {
+        email,
+        newPassword,
+      });
 
-        Alert.alert(
-          "Success",
-          "Password updated successfully"
-        );
+      Alert.alert("Success", "Password updated successfully");
 
-        router.replace(
-          "/auth/login"
-        );
-      } catch (error) {
-        Alert.alert(
-          "Error",
-          "Reset failed"
-        );
-      }
-    };
+      router.replace("/auth/login");
+    } catch (error) {
+      Alert.alert("Error", "Reset failed");
+    }
+  };
 
   return (
     <KeyboardAvoidingView
-  style={{ flex: 1 }}
-  behavior={
-    Platform.OS === "ios"
-      ? "padding"
-      : "height"
-  }
->
-    <ScrollView
-      contentContainerStyle={
-        styles.container
-      }
-      showsVerticalScrollIndicator={
-        false
-      }
-      keyboardShouldPersistTaps="handled"
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <TouchableOpacity
-  style={styles.backButton}
-  onPress={() => router.back()}
->
-  <Ionicons
-    name="arrow-back"
-    size={24}
-    color="white"
-  />
-</TouchableOpacity>
-
-      <Image
-        source={require("../../assets/images/blood-drop.png")}
-        style={styles.logo}
-      />
-
-      <Text style={styles.title}>
-        Forgot Password
-      </Text>
-
-      <Text style={styles.subtitle}>
-        Reset your account password
-      </Text>
-
-      <View style={styles.card}>
-        <TextInput
-          placeholder="Email"
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-        />
-
-        <TextInput
-          placeholder="New Password"
-          secureTextEntry
-          style={styles.input}
-          value={newPassword}
-          onChangeText={
-            setNewPassword
-          }
-        />
-
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         <TouchableOpacity
-          style={styles.button}
-          onPress={handleReset}
+          style={styles.backButton}
+          onPress={() => router.back()}
         >
-          <Text
-            style={styles.buttonText}
-          >
-            Reset Password
-          </Text>
+          <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
-      </View>
-    </ScrollView>
+
+        <Image
+          source={require("../../assets/images/blood-drop.png")}
+          style={styles.logo}
+        />
+
+        <Text style={styles.title}>Forgot Password</Text>
+
+        <Text style={styles.subtitle}>Reset your account password</Text>
+
+        <View style={styles.card}>
+          <TextInput
+            placeholder="Email"
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <TextInput
+            placeholder="New Password"
+            secureTextEntry
+            style={styles.input}
+            value={newPassword}
+            onChangeText={setNewPassword}
+          />
+
+          <TouchableOpacity style={styles.button} onPress={handleReset}>
+            <Text style={styles.buttonText}>Reset Password</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -142,23 +103,20 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-  width: 45,
+    width: 45,
 
-  height: 45,
+    height: 45,
 
-  borderRadius: 22.5,
+    borderRadius: 22.5,
 
-  backgroundColor:
-    "rgba(255,255,255,0.15)",
+    backgroundColor: "rgba(255,255,255,0.15)",
 
-  justifyContent: "center",
+    justifyContent: "center",
 
-  alignItems: "center",
+    alignItems: "center",
 
-  marginBottom: 25,
-},
-
-  
+    marginBottom: 25,
+  },
 
   logo: {
     width: 120,
@@ -190,21 +148,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
- card: {
-  backgroundColor: "white",
+  card: {
+    backgroundColor: "white",
 
-  borderRadius: 24,
+    borderRadius: 24,
 
-  padding: 25,
+    padding: 25,
 
-  shadowColor: "#000",
+    shadowColor: "#000",
 
-  shadowOpacity: 0.08,
+    shadowOpacity: 0.08,
 
-  shadowRadius: 10,
+    shadowRadius: 10,
 
-  elevation: 5,
-},
+    elevation: 5,
+  },
 
   input: {
     backgroundColor: "#F3F4F6",

@@ -13,15 +13,14 @@ Notifications.setNotificationHandler({
 const RootLayout = () => {
   return (
     <>
-    <StatusBar style="dark"/>
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    />
-    <Toast />
+      <StatusBar style="dark" />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
+      <Toast />
     </>
-    
   );
 };
 

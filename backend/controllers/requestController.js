@@ -1,61 +1,41 @@
-const BloodRequest = require(
-  "../models/BloodRequest"
-);
+const BloodRequest = require("../models/BloodRequest");
 
-const User = require(
-  "../models/User"
-);
-
+const User = require("../models/User");
 
 // CREATE REQUEST
 
-const createRequest = async (
-  req,
-  res
-) => {
+const createRequest = async (req, res) => {
   try {
-    const {
+    const { recipient, donor, patientName, hospitalName, bloodGroup } =
+      req.body;
+
+    const request = await BloodRequest.create({
       recipient,
       donor,
       patientName,
       hospitalName,
       bloodGroup,
-    } = req.body;
+      status: "pending",
+    });
+    const donorUser = await User.findById(donor);
 
-    const request =
-      await BloodRequest.create({
-        recipient,
-        donor,
-        patientName,
-        hospitalName,
-        bloodGroup,
-        status:"pending",
+    if (donorUser?.pushToken) {
+      await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: donorUser.pushToken,
+          title: "New Blood Request",
+          body: `${patientName} needs blood`,
+        }),
       });
-      const donorUser =
-  await User.findById(donor);
-
-if (donorUser?.pushToken) {
-  await fetch(
-    "https://exp.host/--/api/v2/push/send",
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type":
-          "application/json",
-      },
-      body: JSON.stringify({
-        to: donorUser.pushToken,
-        title: "New Blood Request",
-        body: `${patientName} needs blood`,
-      }),
     }
-  );
-}
 
     res.status(201).json({
-      message:
-        "Blood request sent successfully",
+      message: "Blood request sent successfully",
 
       request,
     });
@@ -66,19 +46,14 @@ if (donorUser?.pushToken) {
   }
 };
 
-
 // GET DONORS
 
-const getDonors = async (
-  req,
-  res
-) => {
+const getDonors = async (req, res) => {
   try {
-    const donors =
-      await User.find({
-        role: "donor",
-        available:true,
-      }).select("-password");
+    const donors = await User.find({
+      role: "donor",
+      available: true,
+    }).select("-password");
 
     res.status(200).json(donors);
   } catch (error) {
@@ -88,157 +63,104 @@ const getDonors = async (
   }
 };
 
-
 // GET DONOR REQUESTS
 
-const getDonorRequests =
-  async (req, res) => {
-    try {
-      const requests =
-        await BloodRequest.find({
-          donor: req.params.id,
-        })
-          .populate(
-            "recipient",
-            "name email phone"
-          )
-          .sort({
-            createdAt: -1,
-          });
-
-      res.status(200).json(
-        requests
-      );
-    } catch (error) {
-      res.status(500).json({
-        message: error.message,
+const getDonorRequests = async (req, res) => {
+  try {
+    const requests = await BloodRequest.find({
+      donor: req.params.id,
+    })
+      .populate("recipient", "name email phone")
+      .sort({
+        createdAt: -1,
       });
-    }
-  };
 
+    res.status(200).json(requests);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 // UPDATE REQUEST STATUS
 
-const updateRequestStatus =
-  async (req, res) => {
-    try {
-      const request =
-        await BloodRequest.findById(
-          req.params.id
-        );
+const updateRequestStatus = async (req, res) => {
+  try {
+    const request = await BloodRequest.findById(req.params.id);
 
-      request.status =
-        req.body.status;
+    request.status = req.body.status;
 
-      await request.save();
+    await request.save();
 
-      const recipient =
-  await User.findById(
-    request.recipient
-  );
+    const recipient = await User.findById(request.recipient);
 
-const donor =
-  await User.findById(
-    request.donor
-  );
+    const donor = await User.findById(request.donor);
 
-      if (
-        recipient?.pushToken
-      ) {
-        
-        let notificationTitle =
-  "Blood Request Update";
+    if (recipient?.pushToken) {
+      let notificationTitle = "Blood Request Update";
 
-let notificationBody =
-  "";
+      let notificationBody = "";
 
-if (
-  request.status ===
-  "accepted"
-) {
-  notificationTitle =
-    "Blood Request Accepted ❤️";
+      if (request.status === "accepted") {
+        notificationTitle = "Blood Request Accepted ❤️";
 
-  notificationBody =
-    `Donor: ${donor.name}
+        notificationBody = `Donor: ${donor.name}
 Phone: ${donor.phone}`;
-} else {
-  notificationTitle =
-    "Blood Request Rejected";
+      } else {
+        notificationTitle = "Blood Request Rejected";
 
-  notificationBody =
-    "Unfortunately the donor rejected your request.";
-}
-
-        await fetch(
-          "https://exp.host/--/api/v2/push/send",
-          {
-            method: "POST",
-
-            headers: {
-              Accept:
-                "application/json",
-
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              {
-                to:
-                  recipient.pushToken,
-
-                title:
-                  notificationTitle,
-
-                body:
-                  notificationBody,
-              }
-            ),
-          }
-        );
+        notificationBody = "Unfortunately the donor rejected your request.";
       }
 
-      res.status(200).json({
-        message:
-          "Request updated successfully",
-      });
-    } catch (error) {
-      res.status(500).json({
-        message:
-          error.message,
+      await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+
+        headers: {
+          Accept: "application/json",
+
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          to: recipient.pushToken,
+
+          title: notificationTitle,
+
+          body: notificationBody,
+        }),
       });
     }
-  };
 
+    res.status(200).json({
+      message: "Request updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 // GET RECIPIENT HISTORY
 
-const getRecipientRequests =
-  async (req, res) => {
-    try {
-      const requests =
-        await BloodRequest.find({
-          recipient:
-            req.params.id,
-        })
-          .populate(
-            "donor",
-            "name bloodGroup city phone"
-          )
-          .sort({
-            createdAt: -1,
-          });
-
-      res.status(200).json(
-        requests
-      );
-    } catch (error) {
-      res.status(500).json({
-        message: error.message,
+const getRecipientRequests = async (req, res) => {
+  try {
+    const requests = await BloodRequest.find({
+      recipient: req.params.id,
+    })
+      .populate("donor", "name bloodGroup city phone")
+      .sort({
+        createdAt: -1,
       });
-    }
-  };
+
+    res.status(200).json(requests);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   createRequest,

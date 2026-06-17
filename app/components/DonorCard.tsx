@@ -1,9 +1,4 @@
-import {
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { DonorType } from "../types/user";
 
@@ -13,52 +8,30 @@ interface Props {
   onRequest: () => void;
 }
 
-const DonorCard = ({
-  donor,
-  onRequest,
-}: Props) => {
+const DonorCard = ({ donor, onRequest }: Props) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.name}>
-        {donor.name}
-      </Text>
+      <Text style={styles.name}>{donor.name}</Text>
 
-      <Text style={styles.info}>
-        Blood Group:
-        {" "}
-        {donor.bloodGroup}
-      </Text>
+      <Text style={styles.info}>Blood Group: {donor.bloodGroup}</Text>
 
-      <Text style={styles.info}>
-        City: {donor.city}
-      </Text>
+      <Text style={styles.info}>City: {donor.city}</Text>
 
-      <Text style={styles.info}>
-        Phone: {donor.phone}
-      </Text>
+      <Text style={styles.info}>Phone: {donor.phone}</Text>
 
       <Text
         style={[
           styles.status,
           {
-            color: donor.available
-              ? "green"
-              : "red",
+            color: donor.available ? "green" : "red",
           },
         ]}
       >
-        {donor.available
-          ? "Available"
-          : "Unavailable"}
+        {donor.available ? "Available" : "Unavailable"}
       </Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={onRequest}
-      >
-        <Text style={styles.buttonText}>
-          Send Request
-        </Text>
+      <TouchableOpacity style={styles.button} onPress={onRequest}>
+        <Text style={styles.buttonText}>Send Request</Text>
       </TouchableOpacity>
     </View>
   );

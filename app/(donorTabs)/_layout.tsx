@@ -1,28 +1,21 @@
 import { Tabs } from "expo-router";
 
-import {
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const DonorTabs = () => {
-  const insets =
-    useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
 
-        tabBarActiveTintColor:
-          "#DC2626",
+        tabBarActiveTintColor: "#DC2626",
 
         tabBarStyle: {
-          height:
-            65 +
-            insets.bottom,
+          height: 65 + insets.bottom,
 
-          paddingBottom:
-            insets.bottom,
+          paddingBottom: insets.bottom,
 
           paddingTop: 8,
         },
@@ -33,15 +26,8 @@ const DonorTabs = () => {
         options={{
           title: "Dashboard",
 
-          tabBarIcon: ({
-            color,
-            size,
-          }) => (
-            <FontAwesome5
-              name="tint"
-              size={size}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="tint" size={size} color={color} />
           ),
         }}
       />
@@ -51,15 +37,8 @@ const DonorTabs = () => {
         options={{
           title: "Requests",
 
-          tabBarIcon: ({
-            color,
-            size,
-          }) => (
-            <FontAwesome5
-              name="heartbeat"
-              size={size}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="heartbeat" size={size} color={color} />
           ),
         }}
       />
