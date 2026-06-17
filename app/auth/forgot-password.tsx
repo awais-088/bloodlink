@@ -33,7 +33,7 @@ const ForgotPasswordScreen = () => {
       Alert.alert("Success", "Password updated successfully");
 
       router.replace("/auth/login");
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Reset failed");
     }
   };
