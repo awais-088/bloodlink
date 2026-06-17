@@ -60,7 +60,7 @@ const DonorDashboard = () => {
       await saveUser(updatedUser);
 
       Alert.alert("Success", "Availability updated");
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Failed to update");
     }
   };

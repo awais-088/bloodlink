@@ -77,7 +77,7 @@ const DonorProfile = () => {
       await saveUser(response.data.user);
 
       Alert.alert("Success", "Profile Updated");
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Update Failed");
     }
   };

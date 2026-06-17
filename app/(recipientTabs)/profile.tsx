@@ -81,7 +81,7 @@ const ProfileScreen = () => {
       await saveUser(updatedUser);
 
       Alert.alert("Success", "Profile updated successfully");
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Update failed");
     }
   };

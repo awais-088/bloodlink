@@ -53,7 +53,7 @@ const RequestsScreen = () => {
       Alert.alert("Success", `Request ${status}`);
 
       loadRequests();
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Update failed");
     }
   };
